@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs ivy-mode</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs ivy-mode</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-orgc8339fb" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc8339fb">Emacs ivy-mode</h2>
+<ul>
+<li>ivy, a generic completion mechanism for Emacs</li>
+<li>Counsel, a collection of Ivy-enhanced versions of common Emacs commands</li>
+<li>Swiper, an Ivy-enhanced alternative to isearch</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org43970dc" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org43970dc">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/SIm8z20tTOE" frameborder="0" allowfullscreen>Emacs Ivy-mode 簡介</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgc63d831" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc63d831">ivy-mode config</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">ivy</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:diminish</span> (ivy-mode . <span style="color: #ffc1c1;">""</span>)
+  <span style="color: #b0c4de;">:bind</span> ((<span style="color: #ffc1c1;">"C-c C-r"</span> . ivy-resume))
+  <span style="color: #b0c4de;">:config</span>
+  (ivy-mode 1)
+  (<span style="color: #00ffff;">setq</span> ivy-use-virtual-buffers t)
+  (<span style="color: #00ffff;">setq</span> enable-recursive-minibuffers t)
+  (<span style="color: #00ffff;">setq</span> ivy-height 10)
+  (<span style="color: #00ffff;">setq</span> ivy-initial-inputs-alist nil)
+  (<span style="color: #00ffff;">setq</span> ivy-count-format <span style="color: #ffc1c1;">"%d/%d "</span>)
+  (<span style="color: #00ffff;">setq</span> ivy-re-builders-alist
+    `((t . ivy--regex-ignore-order))))
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org2c572d1" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org2c572d1">counsel mode</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">counsel</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:bind</span> ((<span style="color: #ffc1c1;">"M-x"</span> . counsel-M-x)
+         (<span style="color: #ffc1c1;">"C-x C-f"</span> . counsel-find-file)))
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org73a35b0" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org73a35b0">swiper-mode</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">swiper</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:bind</span> ((<span style="color: #ffc1c1;">"C-s"</span> . swiper)))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

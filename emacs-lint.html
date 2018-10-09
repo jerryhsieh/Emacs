@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs flycheck-mode</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs flycheck-mode</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-org6913dde" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org6913dde">Emacs flycheck-mode</h2>
+<ul>
+<li>是一個快速的語法檢查套件</li>
+<li>支援超過 40 種程式語言，80 種語法檢驗工具程式</li>
+<li>使用簡單的使用者介面</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9ee99c1" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9ee99c1">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/iIBXtt8knDs" frameborder="0" allowfullscreen>Emacs Flycheck</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org80a179d" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org80a179d">安裝</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">flycheck</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:init</span>
+  (global-flycheck-mode t))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgc3afd1f" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc3afd1f">支援檢查工具 <code>flycheck checkers</code></h2>
+<pre class="example">
+(ada-gnat asciidoctor asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint css-stylelint cwl d-dmd dockerfile-hadolint emacs-lisp emacs-lisp-checkdoc erlang-rebar3 erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert go-megacheck groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy javascript-eslint javascript-jshint javascript-standard json-jsonlint json-python-json jsonnet less less-stylelint llvm-llc lua-luacheck lua markdown-markdownlint-cli markdown-mdl nix perl perl-perlcritic php php-phpmd php-phpcs processing proselint protobuf-protoc pug puppet-parser puppet-lint python-flake8 python-pylint python-pycompile python-mypy r-lintr racket rpm-rpmlint rst-sphinx rst ruby-rubocop ruby-reek ruby-rubylint ruby ruby-jruby rust-cargo rust rust-clippy scala scala-scalastyle scheme-chicken scss-lint scss-stylelint sass/scss-sass-lint sass scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim slim-lint sql-sqlint systemd-analyze tcl-nagelfar tex-chktex tex-lacheck texinfo typescript-tslint verilog-verilator vhdl-ghdl xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby)
+
+</pre>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org00ea70e" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org00ea70e">key binding</h2>
+<ul>
+<li><code>C-c ! l</code> M-x flycheck-list-errors, within error list use below key binding</li>
+<li><code>RET</code> Go to the current error in the source buffer</li>
+<li><code>n</code> Jump to the next error</li>
+<li><code>p</code> Jump to the previous error</li>
+<li><code>e</code> Explain the error</li>
+<li><code>f</code> Filter the error list by level</li>
+<li><code>F</code> Remove the filter</li>
+<li><code>S</code> Sort the error list by the column at point</li>
+<li><code>g</code> Check the source buffer and update the error list</li>
+<li><code>q</code> Quit the error list and hide its window</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9d79c0b" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9d79c0b">Example for javascript use flycheck-eslint</h2>
+<ul>
+<li>安裝 <code>eslint</code>: <code>npm install -g eslint</code></li>
+<li>加入 <code>.eslintrc</code> 到 Home directory</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-js">{
+  <span style="color: #ffc1c1;">"extends"</span>: <span style="color: #ffc1c1;">"eslint:recommended"</span>,        
+  <span style="color: #ffc1c1;">"parser"</span>: <span style="color: #ffc1c1;">"babel-eslint"</span>,
+  <span style="color: #ffc1c1;">"env"</span>: {
+    <span style="color: #ffc1c1;">"browser"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"es6"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"node"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>
+  },
+  <span style="color: #ffc1c1;">"ecmaFeatures"</span>: {
+    <span style="color: #ffc1c1;">"arrowFunctions"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"blockBindings"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"classes"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"defaultParams"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"destructuring"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"forOf"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"generators"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"modules"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"spread"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"templateStrings"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>,
+    <span style="color: #ffc1c1;">"jsx"</span>: <span style="color: #8470ff; font-weight: bold;">true</span>
+  },
+  <span style="color: #ffc1c1;">"rules"</span>: {
+    <span style="color: #ffc1c1;">"semi"</span>: [<span style="color: #ffc1c1;">"warn"</span>, <span style="color: #ffc1c1;">"always"</span>], 
+    <span style="color: #ffc1c1;">"quotes"</span>: [<span style="color: #ffc1c1;">"warn"</span>, <span style="color: #ffc1c1;">"double"</span>],
+    <span style="color: #ffc1c1;">"consistent-return"</span>: [0],
+    <span style="color: #ffc1c1;">"key-spacing"</span>: [0],
+    <span style="color: #ffc1c1;">"new-cap"</span>: [0],
+    <span style="color: #ffc1c1;">"no-multi-spaces"</span>: [0],
+    <span style="color: #ffc1c1;">"no-shadow"</span>: [0],
+    <span style="color: #ffc1c1;">"no-unused-vars"</span>: [1],
+    <span style="color: #ffc1c1;">"no-use-before-define"</span>: [2, <span style="color: #ffc1c1;">"nofunc"</span>]
+  }
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

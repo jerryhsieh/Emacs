@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs company-mode</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs company-mode</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-orgd27242b" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgd27242b">Emacs company-mode</h2>
+<ul>
+<li>Company 是 'complete anything' 的意思</li>
+<li>是一種 auto-complete 自動完成</li>
+<li>支援各種後端 (back-ends): Elisp, clang, yasnippet &#x2026;</li>
+<li>可以更改前端樣式</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orga20b709" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orga20b709">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/gsef-ebH-as" frameborder="0" allowfullscreen>Emacs company-mode</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgc032343" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc032343">安裝</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">company</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:config</span>
+  (global-company-mode t)
+  (<span style="color: #00ffff;">setq</span> company-idle-delay 0)
+  (<span style="color: #00ffff;">setq</span> company-minimum-prefix-length 3)
+  (<span style="color: #00ffff;">setq</span> company-backends
+        '((company-files
+           company-yasnippet
+           company-keywords
+           company-capf
+           )
+          (company-abbrev company-dabbrev))))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgc89a687" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc89a687">在 emacs-lisp mode 使用 company</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(add-hook 'emacs-lisp-mode-hook
+            (<span style="color: #00ffff;">lambda</span> ()
+              (add-to-list (make-local-variable 'company-backends) 
+              '(company-elisp))))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org01a7ad1" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org01a7ad1">avoid "C-n", "C-p" issues</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">with-eval-after-load</span> 'company
+  (define-key company-active-map (kbd <span style="color: #ffc1c1;">"M-n"</span>) nil)
+  (define-key company-active-map (kbd <span style="color: #ffc1c1;">"M-p"</span>) nil)
+  (define-key company-active-map (kbd <span style="color: #ffc1c1;">"C-n"</span>) #'company-select-next)
+  (define-key company-active-map (kbd <span style="color: #ffc1c1;">"C-p"</span>) #'company-select-previous))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orga66be1c" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orga66be1c">company integrate with yasnippet</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(advice-add 'company-complete-common <span style="color: #b0c4de;">:before</span> (<span style="color: #00ffff;">lambda</span> () 
+                                (<span style="color: #00ffff;">setq</span> my-company-point (point))))
+(advice-add 'company-complete-common <span style="color: #b0c4de;">:after</span> (<span style="color: #00ffff;">lambda</span> ()
+                                (<span style="color: #00ffff;">when</span> (equal my-company-point (point))
+                                                  (yas-expand))))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>
