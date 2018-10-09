@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs org-mode</title>
+<meta name="author" content="(Jerry Hsieh)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" async
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2>Emacs org-mode</h2><h3>Jerry Hsieh</h3>
+</section>
+<section>
+<section id="slide-org5d61f26">
+<h2 id="org5d61f26">Emacs org-mode</h2>
+<ul>
+<li>寫筆記</li>
+<li>做 Todo</li>
+<li>寫文章</li>
+<li>做計畫</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgf47d225">
+<h2 id="orgf47d225">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/71GZDvRkAeM" frameborder="0" allowfullscreen>Emacs org-mode part 1</iframe>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/8TzzX18j2cY" frameborder="0" allowfullscreen>Emacs org-mode part 2</iframe>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgdbd3cf4">
+<h2 id="orgdbd3cf4">基本語法</h2>
+<ul>
+<li>Outlines</li>
+<li><b>bold</b> <i>italic</i> <code>verbatim</code>, <del>strikethrough</del></li>
+<li>bulleted
+<ul>
+<li>list</li>
+<li>items</li>
+
+</ul></li>
+<li>links <a href="https:www.onionstudio.com.tw">My Website</a></li>
+<li>store link</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orga87f70b">
+<h2 id="orga87f70b">Table</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">name</th>
+<th scope="col" class="org-left">email</th>
+<th scope="col" class="org-left">address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Jerry</td>
+<td class="org-left">jerry@gmail.com</td>
+<td class="org-left">xxx</td>
+</tr>
+
+<tr>
+<td class="org-left">Tim</td>
+<td class="org-left">tim@gmail.com</td>
+<td class="org-left">yyy</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+</section>
+<section>
+<section id="slide-org345672d">
+<h2 id="org345672d">Export to other format (C-c C-e)</h2>
+</section>
+</section>
+<section>
+<section id="slide-orgfd4c336">
+<h2 id="orgfd4c336">source code</h2>
+<div class="org-src-container">
+
+<pre  class="src src-ruby"><span style="color: #00ffff;">def</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">fact</span>(n)
+  <span style="color: #00ffff;">if</span> n == 0
+    1
+  <span style="color: #00ffff;">else</span>
+    n * fact(n - 1)
+  <span style="color: #00ffff;">end</span>
+<span style="color: #00ffff;">end</span>
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org6565ff8">
+<h2 id="org6565ff8">org embed youtube</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">defvar</span> <span style="color: #7fffd4;">yt-iframe-format</span>
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">You may want to change your width and height.</span>
+(concat <span style="color: #ffc1c1;">"&lt;iframe width=\"440\""</span>
+        <span style="color: #ffc1c1;">" height=\"335\""</span>
+        <span style="color: #ffc1c1;">" src=\"https://www.youtube.com/embed/%s\""</span>
+        <span style="color: #ffc1c1;">" frameborder=\"0\""</span>
+        <span style="color: #ffc1c1;">" allowfullscreen&gt;%s&lt;/iframe&gt;"</span>))
+
+(org-add-link-type
+<span style="color: #ffc1c1;">"yt"</span>
+(<span style="color: #00ffff;">lambda</span> (handle)
+  (browse-url
+  (concat <span style="color: #ffc1c1;">"https://www.youtube.com/embed/"</span>
+     handle)))
+(<span style="color: #00ffff;">lambda</span> (path desc backend)
+ (<span style="color: #00ffff;">cl-case</span> backend
+   (html (format yt-iframe-format
+                 path (<span style="color: #00ffff;">or</span> desc <span style="color: #ffc1c1;">""</span>)))
+   (latex (format <span style="color: #ffc1c1;">"</span><span style="color: #ffc0cb; font-weight: bold;">\</span><span style="color: #ffc1c1;">href{%s}{%s}"</span>
+                  path (<span style="color: #00ffff;">or</span> desc <span style="color: #ffc1c1;">"video"</span>))))))
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgd0b2872">
+<h2 id="orgd0b2872">Latex integration</h2>
+<ul>
+<li>characters: &alpha; &rarr; &beta;</li>
+<li>\(O(n \log n)\)</li>
+
+</ul>
+<div>
+\begin{align*}
+        3 * 2 + 1 &= 6 + 1
+                  &= 7
+\end{align*}
+
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org4216dff">
+<h2 id="org4216dff">有關 Latex 中文支援 (Mac OS)</h2>
+<ul>
+<li><p>
+Mac 最小安裝
+</p>
+<pre class="example">
+brew tap phinze/cask
+brew install brew-cask
+brew cask install basictex
+</pre></li>
+<li><p>
+加 path
+</p>
+<pre class="example">
+# bash/zsh 等
+export PATH=/Library/TeX/texbin/:$PATH
+</pre></li>
+<li><p>
+安裝中文 CTeX
+</p>
+<pre class="example">
+sudo tlmgr update --self --all
+sudo tlmgr install ctex environ trimspaces zhnumber
+sudo tlmgr install wrapfig capt-of
+</pre></li>
+<li><p>
+在 org file 前加入
+</p>
+<pre class="example">
+#+LATEX_HEADER: \usepackage{ctex}
+#+LATEX_COMPILER: xelatex
+</pre></li>
+<li><p>
+加入
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">defvar</span> <span style="color: #7fffd4;">use-font</span> (<span style="color: #00ffff;">cond</span> 
+  ((eq system-type 'gnu/linux) <span style="color: #ffc1c1;">"{Noto Sans TC Regular}"</span>)
+  ((eq system-type 'darwin) <span style="color: #ffc1c1;">"{PingFang TC}"</span>)))
+
+(<span style="color: #00ffff;">setq</span> org-latex-classes (list (list <span style="color: #ffc1c1;">"article"</span> (format <span style="color: #ffc1c1;">"</span>
+<span style="color: #ffc1c1;">     \\documentclass[12pt,a4paper]{article}</span>
+<span style="color: #ffc1c1;">     \\usepackage{xeCJK}</span>
+<span style="color: #ffc1c1;">     \\setCJKmainfont%s</span>
+<span style="color: #ffc1c1;">     \\setCJKsansfont%s</span>
+<span style="color: #ffc1c1;">     \\setCJKmonofont%s</span>
+<span style="color: #ffc1c1;">     "</span> use-font use-font use-font))))
+</pre>
+</div></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orga3dae85">
+<h2 id="orga3dae85">Literate Programming</h2>
+<pre class="example">
+(org-babel-load-file "~/.emacs.d/configuration.org")
+</pre>
+
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">org</span>
+<span style="color: #b0c4de;">:ensure</span> t
+<span style="color: #b0c4de;">:mode</span> ((<span style="color: #ffc1c1;">"\\.org\\'"</span> . org-mode)
+(<span style="color: #ffc1c1;">"\\.txt\\'"</span> . org-mode))
+<span style="color: #b0c4de;">:config</span>
+(global-set-key (kbd <span style="color: #ffc1c1;">"\C-c l"</span>) 'org-store-link)
+(global-set-key (kbd <span style="color: #ffc1c1;">"\C-c a"</span>) 'org-agenda)
+(global-set-key (kbd <span style="color: #ffc1c1;">"\C-c c"</span>) 'org-capture)
+(<span style="color: #00ffff;">setq</span> org-hide-leading-stars t)
+(<span style="color: #00ffff;">setq</span> org-src-fontify-natively t)
+(<span style="color: #00ffff;">setq</span> org-log-done 'time)
+(<span style="color: #00ffff;">setq</span> org-agenda-files (list <span style="color: #ffc1c1;">"~/org/todo.org"</span>
+                             <span style="color: #ffc1c1;">"~/org/gcal.org"</span>))
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">org-download</span>
+<span style="color: #b0c4de;">:ensure</span> t)
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">org-bullets</span>
+<span style="color: #b0c4de;">:ensure</span> t
+<span style="color: #b0c4de;">:hook</span> (org-mode . org-bullets-mode))
+(org-babel-do-load-languages 'org-babel-load-languages
+                             '((shell . t)
+                               (python . t)
+                               (sqlite . t)
+                               (perl . t)
+                               (C . t)
+                               (ruby . t)
+                               (js . t)
+                               (emacs-lisp . t)
+                               (lisp . t)
+                               (latex . t)
+                               (java . t)))
+                               )
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org979dd42">
+<h2 id="org979dd42">org2blog 直接寫部落格</h2>
+<ul>
+<li>因 xml-rpc 不相容於 unicode, 需置換 <a href="https://github.com/org2blog/org2blog#unicode-character-support">unicode support</a></li>
+<li>emacs-lisp 的 syntax highlight 參考 <a href="https://vxlabs.com/tag/syntaxhighlighter/">https://vxlabs.com/tag/syntaxhighlighter/</a>
+<ul>
+<li>加入 <a href="https://github.com/starforgelabs/SyntaxHighlighter-Evolved-LISP-Brush/blob/master/shBrushLisp.js">shBrushLips.js</a> 到 <code>wp-content/plugins/syntaxhighlighter</code></li>
+<li><p>
+修改 <code>syntaxhighlighter.php</code> 插入
+</p>
+<pre class="example">
+// ...
+wp_register_script('syntaxhighlighter-brush-lisp', plugins_url('shBrushLisp.js',__FILE__),array('syntaxhighlighter-core'),'1.0.0');
+// ...
+$this-&gt;brushes = (array) apply_filters( 'syntaxhighlighter_brushes', array(
+'as3' =&gt; 'as3',
+&lt;bunch of other aliases&gt;,
+'lisp' =&gt; 'lisp',
+'emacs-lisp' =&gt; 'lisp',
+</pre></li>
+
+</ul></li>
+<li><p>
+設定
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">org2blog</span>
+<span style="color: #b0c4de;">:ensure</span> t
+<span style="color: #b0c4de;">:requires</span> org
+<span style="color: #b0c4de;">:init</span>
+(<span style="color: #00ffff;">setq</span> org2blog/wp-blog-alist
+       '((<span style="color: #ffc1c1;">"wordpress"</span>
+       <span style="color: #b0c4de;">:url</span> <span style="color: #ffc1c1;">"https://jerryhsieh01.wordpress.com/xmlrpc.php"</span>
+       <span style="color: #b0c4de;">:username</span> <span style="color: #ffc1c1;">"jerryhsieh01"</span>
+       )
+      (<span style="color: #ffc1c1;">"my-blog"</span>
+       <span style="color: #b0c4de;">:url</span> <span style="color: #ffc1c1;">"https://blog.onionstudio.com.tw/xmlrpc.php"</span>
+       <span style="color: #b0c4de;">:username</span> <span style="color: #ffc1c1;">"Jerry"</span>
+       )))
+ <span style="color: #b0c4de;">:config</span>
+ (<span style="color: #00ffff;">setq</span> org2blog/wp-use-sourcecode-shortcode t)
+ (<span style="color: #00ffff;">setq</span> org2blog/wp-sourcecode-langs 
+      '(<span style="color: #ffc1c1;">"sh"</span> <span style="color: #ffc1c1;">"cpp"</span> <span style="color: #ffc1c1;">"css"</span> <span style="color: #ffc1c1;">"js"</span> <span style="color: #ffc1c1;">"javascript"</span> <span style="color: #ffc1c1;">"perl"</span> <span style="color: #ffc1c1;">"php"</span> <span style="color: #ffc1c1;">"python"</span> <span style="color: #ffc1c1;">"ruby"</span> <span style="color: #ffc1c1;">"emacs-lisp"</span> <span style="color: #ffc1c1;">"lisp"</span> <span style="color: #ffc1c1;">"go"</span> <span style="color: #ffc1c1;">"lua"</span>))
+ )
+</pre>
+</div></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org74c5ab7">
+<h2 id="org74c5ab7">Todo</h2>
+<div class="outline-text-2" id="text-org74c5ab7">
+</div>
+</section>
+<section id="slide-orgab5df9d">
+<h3 id="orgab5df9d">介紹 Todo</h3>
+</section>
+<section id="slide-orgd8ee20d">
+<h3 id="orgd8ee20d">循環不同的狀態</h3>
+</section>
+</section>
+<section>
+<section id="slide-org387c178">
+<h2 id="org387c178">Org Capture</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">setq</span> org-default-notes-file (concat org-directory <span style="color: #ffc1c1;">"/notes.org"</span>))
+(<span style="color: #00ffff;">setq</span> org-agenda-files (list <span style="color: #ffc1c1;">"~/org/gtd.org"</span>
+                             <span style="color: #ffc1c1;">"~/org/gcal.org"</span>
+                             <span style="color: #ffc1c1;">"~/org/blog.org"</span>
+))
+(<span style="color: #00ffff;">setq</span> org-capture-templates
+'((<span style="color: #ffc1c1;">"t"</span> <span style="color: #ffc1c1;">"Todo"</span> entry (file+headline <span style="color: #ffc1c1;">"~/org/gtd.org"</span> <span style="color: #ffc1c1;">"Tasks"</span>)
+    <span style="color: #ffc1c1;">"* TODO %?\n  %i\n  %a"</span>)
+    (<span style="color: #ffc1c1;">"j"</span> <span style="color: #ffc1c1;">"Journal"</span> entry (file+olp+datetree <span style="color: #ffc1c1;">"~/org/journal.org"</span>)
+    <span style="color: #ffc1c1;">"* %?\nEntered on %U\n  %i\n  %a"</span>)
+    (<span style="color: #ffc1c1;">"b"</span> <span style="color: #ffc1c1;">"Blog"</span> entry (file+headline <span style="color: #ffc1c1;">"~/org/blog.org"</span>)
+    <span style="color: #ffc1c1;">"* %?\n%T"</span> <span style="color: #b0c4de;">:prepend</span> t)
+    (<span style="color: #ffc1c1;">"a"</span> <span style="color: #ffc1c1;">"Appointment"</span> entry (file <span style="color: #ffc1c1;">"~/org/gcal.org"</span>)
+    <span style="color: #ffc1c1;">"* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n"</span>)))
+
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org837307e">
+<h2 id="org837307e">Sync with Google Calendar</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">auth-source</span>
+<span style="color: #b0c4de;">:ensure</span> t
+)
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">org-gcal</span>
+<span style="color: #b0c4de;">:ensure</span> t
+<span style="color: #b0c4de;">:config</span>
+(<span style="color: #00ffff;">let</span> (credentials)
+  (add-to-list 'auth-sources <span style="color: #ffc1c1;">"~/.netrc"</span>)
+  (<span style="color: #00ffff;">setq</span> credentials (auth-source-user-and-password <span style="color: #ffc1c1;">"org-gcal"</span>))
+  (<span style="color: #00ffff;">setq</span> org-gcal-client-id (car credentials)
+      org-gcal-client-secret (cadr credentials)
+      org-gcal-file-alist '((<span style="color: #ffc1c1;">"jerryhsieh01@gmail.com"</span> . <span style="color: #ffc1c1;">"~/org/gcal.org"</span>))
+))
+(add-hook 'org-agenda-mode-hook (<span style="color: #00ffff;">lambda</span> () (org-gcal-sync) ))
+(add-hook 'org-capture-after-finalize-hook (<span style="color: #00ffff;">lambda</span> () (org-gcal-sync) ))
+)
+</pre>
+</div>
+<ul>
+<li><p>
+you need to add <code>.netrc</code> file
+</p>
+<pre class="example">
+machine org-gcal client-id xxxx secret yyyy
+</pre></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgc8bc82c">
+<h2 id="orgc8bc82c">Org Reveal</h2>
+<ul>
+<li><p>
+做簡報
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">ox-reveal</span>
+<span style="color: #b0c4de;">:ensure</span> t
+)
+</pre>
+</div></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
