@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs for Html, CSS</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs for Html, CSS</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-orgd94e665" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgd94e665">Youtube 影片</h2>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9fee8e8" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9fee8e8">Emacs for Html/css</h2>
+<ul>
+<li>web-mode for html
+<ul>
+<li>Company-web 來做程式自動補全</li>
+<li>使用 html-tidy 來做語法檢查</li>
+
+</ul></li>
+<li>css-mode/scss-mode for css/scss
+<ul>
+<li>company-css 做程式自動補全</li>
+<li>使用 css-stylelint 對 css 做語法檢查</li>
+<li>使用 scss-stylelint 對 scss 做語法檢查</li>
+
+</ul></li>
+<li>Emmet-mode
+<ul>
+<li>全新方式來寫 html/css</li>
+
+</ul></li>
+<li>Live Server</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgbdcff63" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgbdcff63">Web-mode</h2>
+<ul>
+<li>安裝</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-list">(use-package web-mode
+	:ensure t
+	:mode ("\\.html\\'" "\\.vue\\'" "\\.jsx\\'")
+	:config
+	(setq web-mode-markup-indent-offset 2)
+	(setq web-mode-css-indent-offset 2)
+	(setq web-mode-code-indent-offset 2)
+	(setq web-mode-enable-current-element-highlight t)
+	(setq web-mode-enable-css-colorization t)
+	(set-face-attribute 'web-mode-html-tag-face nil :foreground "royalblue")                                                                 
+	(set-face-attribute 'web-mode-html-attr-name-face nil :foreground "powderblue")                                                          
+	(set-face-attribute 'web-mode-doctype-face nil :foreground "lightskyblue")   
+	(use-package company-web
+		:ensure t
+		:config
+		(add-hook 'web-mode-hook (lambda()
+															 (add-to-list (make-local-variable 'company-backends)
+																						'(company-web-html company-files company-capf)))))
+	(add-hook 'web-mode-hook (lambda ()
+														 (when (equal web-mode-content-type "html")
+															 (my/web-html-setup)))
+						)
+	)
+
+
+(defun my/web-html-setup ()
+	;; web html mode specific setup
+	(flycheck-add-mode 'html-tidy 'web-mode)
+	(flycheck-select-checker 'html-tidy)
+	(flycheck-mode)
+	)
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org1d5ffd9" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org1d5ffd9">Html-tidy 後端安裝</h2>
+<ul>
+<li>tidy
+<ul>
+<li>Linux : <code>sudo yum install tidy</code></li>
+<li><p>
+sample <code>.tidyrc</code>
+</p>
+<pre class="example">
+	// sample config file for HTML tidy
+indent: auto
+indent-spaces: 2
+wrap: 72
+markup: yes
+output-xml: no
+input-xml: no
+show-warnings: yes
+numeric-entities: yes
+quote-marks: yes
+quote-nbsp: yes
+quote-ampersand: no
+break-before-br: no
+uppercase-tags: no
+uppercase-attributes: no
+char-encoding: latin1
+new-inline-tags: cfif, cfelse, math, mroot,
+	mrow, mi, mn, mo, msqrt, mfrac, msubsup, munderover,
+	munder, mover, mmultiscripts, msup, msub, mtext,
+	mprescripts, mtable, mtr, mtd, mth
+new-blocklevel-tags: cfoutput, cfquery
+new-empty-tags: cfelse
+
+</pre></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org3950e13" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org3950e13">css</h2>
+<ul>
+<li>安裝</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">css-mode</span>
+        <span style="color: #b0c4de;">:ensure</span> t
+        <span style="color: #b0c4de;">:mode</span> <span style="color: #ffc1c1;">"\\.css\\'"</span>
+        <span style="color: #b0c4de;">:config</span>
+        (<span style="color: #00ffff;">setq-default</span> css-indent-offset 2)
+        (<span style="color: #00ffff;">setq</span> flycheck-stylelintrc <span style="color: #ffc1c1;">"~/.stylelintrc"</span>)
+        (<span style="color: #00ffff;">setq-default</span> css-indent-offset 2)
+                                                                                                                 (add-to-list (make-local-variable 'company-backends)
+                                                                                                                                                                        '(company-css company-files company-capf company-dabbrev))
+)
+
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">scss-mode</span>
+        <span style="color: #b0c4de;">:ensure</span> t
+        <span style="color: #b0c4de;">:mode</span> (<span style="color: #ffc1c1;">"\\.scss\\'"</span> <span style="color: #ffc1c1;">"\\.sass\\'"</span>)
+)
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9d971d9" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9d971d9">css-stylelint 後端安裝</h2>
+<ul>
+<li><code>$sudo npm install -g stylelint</code></li>
+<li><code>$sudo npm install -g stylelint-config-recommended</code></li>
+<li>增加 ~/.stylelintrc</li>
+
+</ul>
+<pre class="example">
+{
+  "extends": "/usr/lib/node_modules/stylelint-config-standard"
+}
+</pre>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9496c73" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9496c73">Emmet mode</h2>
+<ul>
+<li>安裝</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">emmet-mode</span>
+        <span style="color: #b0c4de;">:ensure</span> t
+        <span style="color: #b0c4de;">:hook</span> (web-mode sgml-mode css-mode scss-mode js2-mode vue-mode)
+        <span style="color: #b0c4de;">:config</span>
+        (add-hook 'emmet-mode-hook (<span style="color: #00ffff;">lambda</span> () (<span style="color: #00ffff;">setq</span> emmet-indent-after-insert nil)))
+        )
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org8588598" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org8588598">Live Server</h2>
+<ul>
+<li>安裝 <code>$sudo npm install -g live-server</code></li>
+<li>執行 <code>$live-server --host=192.28.128.102 --port=4300</code></li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

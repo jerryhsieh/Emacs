@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs for Python</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs for Python</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-orgccf936d" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgccf936d">Youtube 影片</h2>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9eee902" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9eee902">Emacs for Python</h2>
+<ul>
+<li>Python mode
+<ul>
+<li>flycheck support flake8, pylint and pycompile</li>
+<li>pip install flake8, jedi, elpy</li>
+<li>interpreter in emacs</li>
+
+</ul></li>
+<li>Autopep8: auto format code
+<ul>
+<li>pip install autopep8</li>
+
+</ul></li>
+<li>Company-Jedi: code completion
+<ul>
+<li>include jedi-core, do not install jedi if you prefer company-mode
+<ul>
+<li>C-c ,      jedi:goto-definition-pop-marker</li>
+<li>C-c .      jedi:goto-definition</li>
+<li>C-c ?      jedi:show-doc</li>
+
+</ul></li>
+
+</ul></li>
+<li>Elpy
+<ul>
+<li>support virtualenv</li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgbe0ae57" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgbe0ae57">Emacs configuration</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">python</span>
+        <span style="color: #b0c4de;">:ensure</span> t
+        <span style="color: #b0c4de;">:mode</span> (<span style="color: #ffc1c1;">"\\.py\\'"</span> . python-mode)
+        <span style="color: #b0c4de;">:interpreter</span> (<span style="color: #ffc1c1;">"python"</span> . python-mode)
+        <span style="color: #b0c4de;">:config</span>
+        (<span style="color: #00ffff;">setq-default</span> indent-tabs-mode nil)
+        (<span style="color: #00ffff;">setq-default</span> python-indent-offset 4)
+        (<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">py-autopep8</span>
+                <span style="color: #b0c4de;">:ensure</span> t
+                <span style="color: #b0c4de;">:hook</span> ((python-mode . py-autopep8-enable-on-save))
+                )
+        )
+
+
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">company-jedi</span>
+        <span style="color: #b0c4de;">:ensure</span> t
+        <span style="color: #b0c4de;">:config</span>
+        (add-hook 'python-mode-hook 'jedi:setup)
+        (add-hook 'python-mode-hook (<span style="color: #00ffff;">lambda</span> ()
+                                                                                                                                (add-to-list (make-local-variable 'company-backends)
+                                                                                                                                                                                 'company-jedi)))
+        )
+
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">elpy</span>
+        <span style="color: #b0c4de;">:ensure</span> t
+        <span style="color: #b0c4de;">:commands</span> (elpy-enable)
+        <span style="color: #b0c4de;">:config</span>
+        (<span style="color: #00ffff;">setq</span> elpy-rpc-backend <span style="color: #ffc1c1;">"jedi"</span>)
+        )
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgd426968" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgd426968">Python project</h2>
+<ul>
+<li>for Linux (CentOS 7) to install python36</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">sudo</span> yum install -y centos-release-scl-rh
+$<span style="color: #7fffd4;">sudo</span> yum install -y rh-python36
+$<span style="color: #7fffd4;">sudo</span> yum install -y devtoolset-7
+</pre>
+</div>
+<ul>
+<li>add following files to /etc/profile.d
+<code>enabledevtools.sh</code></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #fa8072;">#</span><span style="color: #ff7f24; font-style: italic;">!/bin/</span><span style="color: #00ffff;">bash</span><span style="color: #ff7f24; font-style: italic;">                                                                                                                                   </span>
+<span style="color: #b0c4de;">source</span> scl_source enable devtoolset-7
+</pre>
+</div>
+<p>
+<code>enablepython.sh</code>
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #fa8072;">#</span><span style="color: #ff7f24; font-style: italic;">!/bin/</span><span style="color: #00ffff;">bash</span><span style="color: #ff7f24; font-style: italic;">                                                                                                                                   </span>
+<span style="color: #b0c4de;">source</span> scl_source enable rh-python36
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org70187bf" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org70187bf">to install opencv</h2>
+<ul>
+<li>for linux (CentOS 7)</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">yum</span> groupinstall <span style="color: #ffc1c1;">"Development Tools"</span> -y
+$<span style="color: #7fffd4;">yum</span> install cmake3 gtk2-devel numpy pkgconfig -y
+$<span style="color: #7fffd4;">yum</span> install python36-numpy python36-devel libdc1394-devel libv4l-devel gstreamer-plugins-base-devel
+$<span style="color: #7fffd4;">git</span> clone https://github.com/opencv/opencv.git
+$<span style="color: #7fffd4;">cd</span> opencv
+$<span style="color: #7fffd4;">git</span> checkout 3.5
+$<span style="color: #7fffd4;">mkdir</span> build
+$<span style="color: #7fffd4;">cd</span> build
+$<span style="color: #7fffd4;">cmake</span> -D <span style="color: #7fffd4;">WITH_OPENCL</span>=OFF -D <span style="color: #7fffd4;">WITH_CUDA</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpu</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpuarithm</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpubgsegm</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpucodec</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpufeatures2d</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpufilters</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpuimgproc</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpulegacy</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpuoptflow</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpustereo</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpuwarping</span>=OFF <span style="color: #7fffd4;">CMAKE_BUILD_TYPE</span>=RELEASE -D <span style="color: #7fffd4;">CMAKE_INSTALL_PREFIX</span>=/usr/local -D <span style="color: #7fffd4;">BUILD_opencv_python3</span>=yes -D <span style="color: #7fffd4;">PYTHON_EXECUTABLE</span>=/opt/rh/rh-python36/root/usr/bin/python -D <span style="color: #7fffd4;">PYTHON_INCLUDE_DIR</span>=/opt/rh/rh-python36/root/usr/include/python3.6m -D <span style="color: #7fffd4;">PYTHON_LIBRARY</span>=/opt/rh/rh-python36/root/usr/lib64/libpython3.6m.so.rh-python36-1.0 -d <span style="color: #7fffd4;">PYTHON3_NUMPY_INCLUDE_DIRS</span>=/opt/rh/rh-python36/root/usr/lib64/python3.6/site-packages/numpy/core/include -DWITH_FFMPEG=OFF ..
+$<span style="color: #7fffd4;">make</span> -j 2
+$<span style="color: #7fffd4;">sudo</span> make install
+$<span style="color: #7fffd4;">cd</span> /opt/rh/rh-python36/root/usr/lib64/python3.6/site-packages
+$<span style="color: #7fffd4;">sudo</span> ln -s /usr/local/lib/python3.6/site-packages/cv2.cpython-36-x86_64-linux-gnu.so cv2.so
+</pre>
+</div>
+<ul>
+<li>for Mac OS</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">git</span> clone https://github.com/opencv/opencv
+$<span style="color: #7fffd4;">cd</span> opencv
+$<span style="color: #7fffd4;">mkdir</span> build
+$<span style="color: #7fffd4;">cd</span> build
+$<span style="color: #7fffd4;">cmake</span> -DPYTHON_DEFAULT_EXECUTABLE=python3 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_opencv_python2=False -DBUILD_opencv_python3=True -DPYTHON3_EXECUTABLE=python3 ..
+$<span style="color: #7fffd4;">make</span> j2
+$<span style="color: #7fffd4;">sudo</span> make install
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">for virtualenv</span>
+$<span style="color: #7fffd4;">echo</span> /usr/local/lib/python3.6/site-packages &gt;&gt; /Users/jerryhsieh/Developer/Web/Python/ENV/lib/python3.6/site-packages/opencv3.pth
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org0f9487f" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org0f9487f">Start a Django Project</h2>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">mkdir</span> python-project
+$<span style="color: #7fffd4;">virtualenv</span> ENV 
+$<span style="color: #7fffd4;">pip</span> install django
+$<span style="color: #7fffd4;">django</span>-admin startproject djangoproject
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

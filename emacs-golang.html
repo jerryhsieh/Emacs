@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs go mode</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs go mode</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-org9296889" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9296889">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/-HMnhmwwxnc" frameborder="0" allowfullscreen>Emacs Go</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgf824221" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgf824221">Emacs Go Mode</h2>
+<ul>
+<li>Go mode
+<ul>
+<li>程式美化 Integrate with gofmt
+<ul>
+<li>goimports 取代 gofmt</li>
+
+</ul></li>
+<li>函數定義 Integrate with godoc</li>
+<li>Integrate with godef, jump-to definition</li>
+<li>Integrate with guru, jump-to caller, jump-to-callee&#x2026;</li>
+<li>語法檢查 flycheck: golint</li>
+<li>程式補全 Code completion: company with gocode</li>
+<li>函數定義 Eldoc
+<ul>
+<li>go-eldoc with gocode</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org33b4f36" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org33b4f36">安裝及環境設定</h2>
+<ul>
+<li>先安裝 Go <a href="https://golang.org">https://golang.org</a></li>
+<li>修改 ~.bash_profile</li>
+
+</ul>
+<pre class="example">
+# for go setup
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+</pre>
+<ul>
+<li>建立目錄(workspace)
+<ul>
+<li>bin</li>
+<li>src
+<ul>
+<li>github.com
+<ul>
+<li>yourgithubname</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org58e778b" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org58e778b">go 安裝</h2>
+<pre class="example">
+$go get golang.org/x/tools/cmd/goimports
+$go get golang.org/x/tools/cmd/godoc
+$go get github.com/rogpeppe/godef
+$go get golang.org/x/tools/cmd/guru
+$go get golang.org/x/lint/golint
+$go get github.com/nsf/gocode
+$go get golang.org/x/tools/cmd/gorename
+</pre>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9558ef8" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9558ef8">Emacs 安裝</h2>
+<pre class="example">
+(use-package go-mode
+  :ensure t
+  :mode (("\\.go\\'" . go-mode))
+  :hook ((before-save . gofmt-before-save))
+  :config
+  (setq gofmt-command "goimports")
+  (use-package company-go
+    :ensure t
+    :config
+    (add-hook 'go-mode-hook (lambda()
+                              (add-to-list (make-local-variable 'company-backends)
+                                           '(company-go company-files company-yasnippet company-capf company-dabbrev)))))
+  (use-package go-eldoc
+    :ensure t
+    :hook (go-mode . go-eldoc-setup)
+    )
+  (use-package go-guru
+    :ensure t
+    :config
+    (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
+    )
+  )
+</pre>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org4a245ef" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org4a245ef">讓 company-go 認得自己的 package</h2>
+<pre class="example">
+$gocode set autobuild true
+</pre>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org31fa673" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org31fa673">簡單測試程式</h2>
+<p>
+<code>github.com/xxx/myproject/myutil/main.go</code>
+</p>
+<pre class="example">
+package myutil
+
+
+// Sum : sum of tow int
+func Sum(num1, num2 int) int {
+	return num1 + num2
+}
+
+// Multiply : two int multiplication
+func Multiply(num1, num2 int) int {
+	return num1 * num2
+}
+
+</pre>
+<p>
+<code>github.com/xxx/myproject/main.go</code>
+</p>
+<pre class="example">
+package main
+
+import (
+	"fmt"
+
+	"github.com/jerryhsieh/myproject/myutil"
+)
+
+func main() {
+	fmt.Println("Hello World")
+	fmt.Printf("%d\n", myutil.Sum(1, 32))
+	fmt.Printf("%d\n", myutil.Multiply(3, 6))
+}
+</pre>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

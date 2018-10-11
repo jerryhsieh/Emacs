@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs for Javascript</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs for Javascript</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-org948cbbc" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org948cbbc">Youtube 影片</h2>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9b708ea" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9b708ea">Emacs for Javascript</h2>
+<ul>
+<li>js2-mode
+<ul>
+<li>syntax highlight and checking</li>
+<li>can add js2-refactor</li>
+
+</ul></li>
+
+<li>tide mode
+<ul>
+<li>支援 flycheck (例如 eslint)</li>
+<li>支援 eldoc</li>
+<li>支援 company</li>
+<li>Jump to definition</li>
+<li>refactor</li>
+
+</ul></li>
+<li>prettier-js</li>
+<li>eslint 安裝</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org3a76158" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org3a76158">js2-mode  安裝</h2>
+<pre class="example">
+(use-package js2-mode
+  :ensure t
+  :mode (("\\.js\\'" . js2-mode)
+         ("\\.json\\'" . javascript-mode))
+  :init
+  (setq-default js2-basic-offset 2)
+	(setq-default js2-global-externs '("module" "require" "assert" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__d\
+irname" "console" "JSON")))
+</pre>
+
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org88c4228" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org88c4228">tide-mode 安裝</h2>
+<pre class="example">
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (add-to-list (make-local-variable 'company-backends)
+               'company-files)
+  (company-mode +1))
+
+(add-hook 'js2-mode-hook #'setup-tide-mode)
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
+</pre>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org5ed7eed" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org5ed7eed">prettier 安裝</h2>
+<ul>
+<li>先安裝 prettier</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">sudo</span> npm install -g prettier
+</pre>
+</div>
+<ul>
+<li>安裝 emacs 套件</li>
+
+</ul>
+<pre class="example">
+(use-package prettier-js
+  :ensure t
+  :hook ((js2-mode . prettier-js-mode))
+  :config
+  (setq prettier-js-args '("--trailing-comma" "all"
+                           "--bracket-spacing" "false")))
+
+</pre>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org464e615" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org464e615">eslint 安裝</h2>
+<ul>
+<li>安裝 eslint</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">sudo</span> npm install -g eslint
+</pre>
+</div>
+<ul>
+<li><code>.eslintrc</code></li>
+
+</ul>
+<pre class="example">
+# ~/.eslintrc
+{
+  "extends": "eslint:recommended",        
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "destructuring": true,
+    "forOf": true,
+    "generators": true,
+    "modules": true,
+    "spread": true,
+    "templateStrings": true,
+    "jsx": true
+  },
+  "rules": {
+    "semi": ["warn", "always"], 
+    "quotes": ["warn", "double"],
+    "consistent-return": [0],
+    "key-spacing": [0],
+    "new-cap": [0],
+    "no-multi-spaces": [0],
+    "no-shadow": [0],
+    "no-unused-vars": [1],
+    "no-use-before-define": [2, "nofunc"]
+  }
+}
+</pre>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

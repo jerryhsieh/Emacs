@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs Projectile</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<style>
+.reveal ul li { font-size: 20px;}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs Projectile</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-org0f3d9b7" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org0f3d9b7">Emacs Projectile</h2>
+<ul>
+<li>Emacs 有關專案(Project)的套件</li>
+<li>專案指的是在某個目錄下的檔案們</li>
+<li>支援 git, mercurial, darcs 跟 bazaar 版本控制的專案</li>
+<li>支援 lein, maven, sbt, scons, rebar and bundler 專案</li>
+<li>也可以手動增加一個 .projectile</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org4bc7cc2" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org4bc7cc2">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/dH6yBy03FDg" frameborder="0" allowfullscreen>Emacs Projectile</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org1abb893" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org1abb893">Projectile 的功能</h2>
+<ul>
+<li>jump to a file in project</li>
+<li>jump to files at point in project</li>
+<li>jump to a directory in project</li>
+<li>jump to a file in a directory</li>
+<li>jump to a project buffer</li>
+<li>jump to a test in project</li>
+<li>toggle between files with same names but different extensions (e.g. .h &lt;-&gt; .c/.cpp, Gemfile &lt;-&gt; Gemfile.lock)</li>
+<li>toggle between code and its test (e.g. main.service.js &lt;-&gt; main.service.spec.js)</li>
+<li>jump to recently visited files in the project</li>
+<li>switch between projects you have worked on</li>
+<li>kill all project buffers</li>
+<li>replace in project</li>
+<li>multi-occur in project buffers</li>
+<li>grep in project</li>
+<li>regenerate project etags or gtags (requires ggtags).</li>
+<li>visit project in dired</li>
+<li>run make in a project with a single key chord</li>
+<li>browse dirty version controlled projects</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orge1fd1c8" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orge1fd1c8">安裝</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">projectile</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:config</span>
+  (projectile-mode t)
+  (<span style="color: #00ffff;">setq</span> projectile-completion-system 'ivy)
+  (<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">counsel-projectile</span>
+    <span style="color: #b0c4de;">:ensure</span> t)
+  )
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org99b409c" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org99b409c">主要 keybindings</h2>
+<ul>
+<li><code>C-c C-p ?</code></li>
+<li>C-c C-p D       projectile-dired</li>
+<li>C-c C-p I       projectile-ibuffer</li>
+<li>C-c C-p S       projectile-save-project-buffers</li>
+<li>C-c C-p T       projectile-find-test-file</li>
+<li>C-c C-p V       projectile-browse-dirty-projects</li>
+<li>C-c C-p c       projectile-compile-project</li>
+<li>C-c C-p d       projectile-find-dir</li>
+<li>C-c C-p e       projectile-recentf</li>
+<li>C-c C-p f       projectile-find-file</li>
+<li>C-c C-p p       projectile-switch-project</li>
+<li>C-c C-p s g     projectile-grep</li>
+<li>C-c C-p s r     projectile-ripgrep</li>
+<li>C-c C-p s s     projectile-ag</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

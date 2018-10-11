@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs c/c++ mode</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs c/c++ mode</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-orgccd285d" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgccd285d">Emacs c/c++</h2>
+<ol>
+<li>Irony-mode
+<ul>
+<li>自動程式碼完成: 可使用 company-irony</li>
+<li>語法檢查：使用 flycheck</li>
+<li>支援文件 eldoc</li>
+<li>跟 counsel 配合</li>
+
+</ul></li>
+<li>Rtags
+<ul>
+<li>跳到函數定義</li>
+
+</ul></li>
+
+</ol>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org1952157" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org1952157">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/GLeJRMssz9Q" frameborder="0" allowfullscreen>Emacs c++</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org167fdbd" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org167fdbd">Irony-mode 預先安裝</h2>
+<ul>
+<li>第一次啟動需要安裝 <code>irony-server</code></li>
+<li>系統須先要安裝 <code>clang, cmake, clang-devel (for LibClang)</code></li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgbecb71d" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgbecb71d">Irony-mode</h2>
+<ul>
+<li>Linux (CentOS 7)</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">sudo</span> yum install cmake, clang-devel
+</pre>
+</div>
+<ul>
+<li>Mac OS: for Mac, need to add below library to .code_completion, you need cmake and libclang</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">for cmake</span>
+$<span style="color: #7fffd4;">brew</span> install cmake
+
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">for libclang</span>
+$<span style="color: #7fffd4;">brew</span> install llvm
+$<span style="color: #7fffd4;">echo</span> <span style="color: #ffc1c1;">'export PATH="/usr/local/opt/llvm/bin:$PATH"'</span> &gt;&gt; ~/.bash_profile
+
+$<span style="color: #7fffd4;">echo</span> | clang -x c++ -v -E - 2&gt;&amp;1 | sed -n <span style="color: #ffc1c1;">'/^#include &lt;/,/^End/s|^[^/]*\([^ ]*/include[^ ]*\).*$|-I\1|p'</span> &gt; .clang_completion
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org602da2a" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org602da2a">Irony-mode 安裝</h2>
+<pre class="example">
+(use-package irony
+  :ensure t
+  :hook ((c++-mode . irony-mode)
+         (c-mode . irony-mode))
+  :config
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  (use-package company-irony-c-headers
+    :ensure t)
+  (use-package company-irony
+    :ensure t
+    :config
+    (add-to-list (make-local-variable 'company-backends) '(company-irony company-irony-c-headers)))
+  (use-package flycheck-irony
+  :ensure t
+  :config
+    (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+  (use-package irony-eldoc
+  :ensure t
+  :config
+    (add-hook 'irony-mode-hook #'irony-eldoc))
+  )
+</pre>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org082a76c" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org082a76c">Rtags 預先安裝 (Mac OS)</h2>
+<ul>
+<li>Mac OS, 先安裝 clang</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">sudo</span> port install clang-6.0
+$<span style="color: #7fffd4;">sudo</span> port select clang mp-clang-6.0
+$<span style="color: #7fffd4;">sudo</span> port select llvm mp-llvm-6.0
+</pre>
+</div>
+<ul>
+<li>Compile <code>rtags</code></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">git</span> clone https://github.com/Andersbakken/rtags.git
+$<span style="color: #7fffd4;">git</span> submodule init
+$<span style="color: #7fffd4;">git</span> submodule update
+$<span style="color: #7fffd4;">mkdir</span> build
+$<span style="color: #7fffd4;">cd</span> build
+$<span style="color: #7fffd4;">PATH</span>=/opt/local/libexec/llvm-6.0/bin:$<span style="color: #7fffd4;">PATH</span> cmake ../ -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+$<span style="color: #7fffd4;">make</span>
+$<span style="color: #7fffd4;">sudo</span> make install
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org391b982" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org391b982">Rtags 預先安裝 (Linux)</h2>
+<ul>
+<li>Linux (CentOS 7)</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">sudo</span> yum install llvm-devel
+$<span style="color: #7fffd4;">sudo</span> yum install cppunit-devel
+
+<span style="color: #fa8072;">#</span><span style="color: #ff7f24; font-style: italic;">install gcc-4.9</span>
+$<span style="color: #7fffd4;">sudo</span> yum install centos-release-scl-rh
+$<span style="color: #7fffd4;">sudo</span> yum install devtoolset-3-gcc devtoolset-3-gcc-c++
+$<span style="color: #7fffd4;">update</span>-alternatives --install /usr/bin/gcc-4.9 gcc-4.9 /opt/rh/devtoolset-3/root/usr/bin/gcc 10
+$<span style="color: #7fffd4;">update</span>-alternatives --install /usr/bin/g++-4.9 g++-4.9 /opt/rh/devtoolset-3/root/usr/bin/g++ 10
+
+<span style="color: #fa8072;">#</span><span style="color: #ff7f24; font-style: italic;">install cmake 3.1</span>
+$<span style="color: #7fffd4;">git</span> clone https://gitlab.kitware.com/cmake/cmake.git
+$./bootstrap
+$<span style="color: #7fffd4;">make</span>
+$<span style="color: #7fffd4;">sudo</span> make install
+
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">make rtags</span>
+$<span style="color: #7fffd4;">git</span> clone --recursive https://github.com/Andersbakken/rtags.git
+$<span style="color: #7fffd4;">cd</span> rtags
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">to change cmake gcc-4.9 and g++-4.9</span>
+$<span style="color: #7fffd4;">ccmake</span> .
+$<span style="color: #7fffd4;">cmake</span> -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .
+$<span style="color: #7fffd4;">make</span>
+$<span style="color: #7fffd4;">sudo</span> make install
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orge623065" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orge623065">Rtags 安裝</h2>
+<pre class="example">
+(use-package rtags
+  :ensure t
+  :config
+  (rtags-enable-standard-keybindings)
+  (setq rtags-autostart-diagnostics t)
+  (rtags-diagnostics)
+  (setq rtags-completions-enabled t)
+  (rtags-start-process-unless-running)
+  )
+
+
+(use-package cmake-ide
+  :ensure t
+  :config
+  (cmake-ide-setup)
+  )
+</pre>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

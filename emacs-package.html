@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs 套件及基本設定</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs 套件及基本設定</h2><h3>洋蔥工作室</h3>
+</section>
+<style type="text/css">
+</style>
+
+<section id="slide-orge317191" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orge317191">Emacs 基礎設定</h2>
+<ul>
+<li><code>~/.emacs.d/init.el</code> : Emacs 設定檔</li>
+<li>從 Emacs 24 版本以後，可以使用 <code>package</code> 套件</li>
+<li>預設 <code>package-archives</code> 是 (("gnu" . "<a href="https://elpa.gnu.org/packages/">https://elpa.gnu.org/packages/</a>"))</li>
+<li>建議加入 <code>melpa</code>   ("melpa" . "<a href="https://melpa.org/packages/">https://melpa.org/packages/</a>")</li>
+<li>use-package  可以自動安裝套件及管理套件，使用 <code>:mode</code> 可以延遲載入套件，讓整個 Emacs 快速啟動</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org335f940" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org335f940">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/r-_QdWc-MSQ" frameborder="0" allowfullscreen>Emacs 基本設定</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org53e0639" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org53e0639">Package 設定</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">require</span> '<span style="color: #8470ff; font-weight: bold;">package</span>)
+
+(add-to-list 'package-archives '(<span style="color: #ffc1c1;">"melpa"</span> . <span style="color: #ffc1c1;">"https://melpa.org/packages/"</span>))
+(add-to-list 'package-archives '(<span style="color: #ffc1c1;">"marmalade"</span> . <span style="color: #ffc1c1;">"http://marmalade-repo.org/packages/"</span>))
+
+(package-initialize)
+<span style="color: #fa8072;">;;</span>
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">use-package</span>
+<span style="color: #fa8072;">;;</span>
+(<span style="color: #00ffff;">unless</span> (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">diminish</span> <span style="color: #b0c4de;">:ensure</span> t)
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">bind-key</span> <span style="color: #b0c4de;">:ensure</span> t)
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org6609903" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org6609903">自動套件更新</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">auto-package-update</span>
+  <span style="color: #b0c4de;">:config</span>
+  (<span style="color: #00ffff;">setq</span> auto-package-update-delete-old-versions t)
+  (<span style="color: #00ffff;">setq</span> auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org4966cf7" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org4966cf7">基本設定</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(menu-bar-mode -1)
+
+(show-paren-mode t)
+(electric-pair-mode t)
+(<span style="color: #00ffff;">setq</span> electric-pair-pairs
+        '(
+          (?\' . ?\')
+  ))
+
+(<span style="color: #00ffff;">setq-default</span> indent-tabs-mode nil)
+
+(winner-mode t)
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org638879e" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org638879e">設定客製化參數檔案</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">setq</span> custom-file <span style="color: #ffc1c1;">"~/.emacs.d/custom.variables.el"</span>)
+(load custom-file)
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org122c938" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org122c938">設定自動儲存及備份目錄</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">defconst</span> <span style="color: #7fffd4;">emacs-tmp-dir</span> (format <span style="color: #ffc1c1;">"%s/%s%s/"</span> temporary-file-directory <span style="color: #ffc1c1;">"emacs"</span> (user-uid)))
+(<span style="color: #00ffff;">setq</span> backup-directory-alist
+          `((<span style="color: #ffc1c1;">".*"</span> . ,emacs-tmp-dir)))
+(<span style="color: #00ffff;">setq</span> auto-save-file-name-transforms
+      `((<span style="color: #ffc1c1;">".*"</span> ,emacs-tmp-dir t)))
+(<span style="color: #00ffff;">setq</span> auto-save-list-file-prefix emacs-tmp-dir)
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgc405432" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc405432">兩個次模式幫助寫程式</h2>
+<ul>
+<li>hideshow mode: 程式折疊</li>
+<li>multiple cursors: 多重游標</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(add-hook 'prog-mode-hook #'hs-minor-mode)
+
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">multiple-cursors</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:bind</span> (
+         (<span style="color: #ffc1c1;">"M-3"</span> . mc/mark-next-like-this)
+         (<span style="color: #ffc1c1;">"M-4"</span> . mc/mark-previouse-like-this)
+         <span style="color: #b0c4de;">:map</span> ctl-x-map
+         (<span style="color: #ffc1c1;">"\C-m"</span> . mc/mark-all-dwim)
+         (<span style="color: #ffc1c1;">"&lt;return&gt;"</span> . mule-keymap)
+         ))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

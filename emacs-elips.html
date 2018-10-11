@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs Lisp 簡介</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs Lisp 簡介</h2><h3>洋蔥工作室</h3>
+</section>
+<style type="text/css">
+.reveal .no-border { border-style: hidden;}
+.reveal .no-border th, .reveal .no-border td { border: none; font-size: 30px;}
+</style>
+<section>
+<section id="slide-org368a777" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org368a777">Emacs Lisp 基本介紹</h2>
+<ul>
+<li>一種程式語言</li>
+<li>Lisp 來自於 LISt Processing，使用括號來代表 List</li>
+<li>Emacs Lisp 是 Common Lisp 的一種方言，跟 Common Lisp 有些不同</li>
+<li>Emacs 使用 Emacs Lisp 來擴充編輯器的功能</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org95584c7" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org95584c7">YouTube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/fzWc2zKmstk" frameborder="0" allowfullscreen>Emacs Lisp</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org60b0277" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org60b0277">如何在 Emacs 環境下使用</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">buffer-file-name 
+
+(+ 1 2 3)
+
+(+ (* 2 3)
+   (/ 4 2))
+
+(message <span style="color: #ffc1c1;">"this is help"</span>)
+(format <span style="color: #ffc1c1;">"Hello World!~"</span>)
+(print <span style="color: #ffc1c1;">"Print to mini buffer"</span>)
+(insert <span style="color: #ffc1c1;">" ; insert this  text"</span>)
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-orgc329e3a" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc329e3a">有關 List</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(list 'my (+ 1 1) <span style="color: #ffc1c1;">"son"</span>)
+
+(<span style="color: #00ffff;">quote</span> (1 2 3))
+'(1 2 4)
+
+(car '(1 2 4))
+(cdr '(1 4 6))
+(cons 1 '(2 5))
+'(1 . (2 5))
+(cons '(2 5) 1)
+'(<span style="color: #ffc1c1;">" this is "</span> .  <span style="color: #ffc1c1;">"a text"</span>)
+(cadr '(superman batman aquamen flash joker))
+(nth 2 '(superman batman aquament flash))
+
+(member 'b '(a b c))
+(member '(a) '((a) (z)))
+(memq '(a) '((a) (z)))
+
+(<span style="color: #00ffff;">defvar</span> <span style="color: #7fffd4;">superman</span> (list <span style="color: #b0c4de;">:name</span> <span style="color: #ffc1c1;">"Superman"</span> <span style="color: #b0c4de;">:secret-id</span> <span style="color: #ffc1c1;">"Clark Kent"</span>))
+(format <span style="color: #ffc1c1;">"%s"</span> superman)
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org593880b" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org593880b">ELisp 的變數</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">defvar</span> <span style="color: #7fffd4;">*nums*</span> '(2 4 6))
+(<span style="color: #00ffff;">push</span> 1 *nums*)
+
+(set 'some-list '(a b c))
+some-list
+
+(cons 'z some-list)
+(cons some-list 'z)
+
+(eq some-list '(a b c))
+(eql some-list '(a b c))
+(equal some-list '(a b c))
+
+(<span style="color: #00ffff;">setq</span> my-list '(3 4 5))
+my-list
+
+(<span style="color: #00ffff;">setf</span> (cdr my-list) 10)
+(<span style="color: #00ffff;">setq</span> another-list (cons my-list 7))
+(<span style="color: #00ffff;">let</span> ((a 1) (b 3))
+  (format <span style="color: #ffc1c1;">"now a is %d and b is %d"</span> a b))
+a                                          <span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">a is not within global lexical scope</span>
+
+(<span style="color: #00ffff;">let*</span> ((a 1) (b (+ a 2)))
+  (format <span style="color: #ffc1c1;">"now a is %d and b is %d"</span> a b))
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org29c741e" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org29c741e">函數</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">say-hello</span> ()
+  (message <span style="color: #ffc1c1;">"Hello World"</span>))
+
+(say-hello)
+(functionp 'say-hello)
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">optional args</span>
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">print-list</span> (<span style="color: #63b8ff;">&amp;optional</span> x y z <span style="color: #63b8ff;">&amp;rest</span> ns)
+  (format <span style="color: #ffc1c1;">"%s"</span>  (list x y z ns)))
+
+(print-list)
+(func-arity 'print-list)
+(print-list 1 2)
+(print-list 1 2 3 4 5 6)
+
+(<span style="color: #00ffff;">cl-flet</span> ((double-it (num)
+                  (* num 2)))
+  (double-it 10))
+
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">multiple return value</span>
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">squares</span> (num)
+  (values (expt num 2) (expt num 3)))
+
+(<span style="color: #00ffff;">multiple-value-bind</span> (a b) (squares 2)
+  (format <span style="color: #ffc1c1;">"%d  and %d"</span> a b))
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-orgab2a266" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgab2a266">將函數當作參數</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(apply #'+  '(1 2 3))
+(funcall #'+ '(1 2 3))
+(funcall #'+ 1 2 3)
+
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">times-3</span> (x) (* x 3))
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">times-4</span> (x) (* x 4))
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">multiples</span> (multi-func max-num)
+  (<span style="color: #00ffff;">dotimes</span> (x max-num)
+    (print (format <span style="color: #ffc1c1;">"%d: %d"</span> x (funcall multi-func x))))        <span style="color: #fa8072;">; </span><span style="color: #ff7f24; font-style: italic;">funcall to invoke pass-in function</span>
+  )
+
+(multiples #'times-3 10)
+(multiples #'times-4 10)
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org968567f" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org968567f">匿名及高階函數</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"><span style="color: #fa8072;">;;</span>
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">anonymous function</span>
+<span style="color: #fa8072;">;;</span>
+(<span style="color: #00ffff;">lambda</span> (x) (* x x x))
+((<span style="color: #00ffff;">lambda</span> (x) (* x x x)) 5)
+(fset 'cube (<span style="color: #00ffff;">lambda</span>(x) (* x x x)))     <span style="color: #fa8072;">; </span><span style="color: #ff7f24; font-style: italic;">set symbol to function object</span>
+(cube 4)
+
+<span style="color: #fa8072;">;;</span>
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">high order functions</span>
+<span style="color: #fa8072;">;;</span>
+(mapcar 'upcase '(<span style="color: #ffc1c1;">"foo"</span> <span style="color: #ffc1c1;">"bar"</span> <span style="color: #ffc1c1;">"baz"</span>))
+(mapcar (<span style="color: #00ffff;">lambda</span> (x) (* x x)) '(2 3 5))
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org0b1e071" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org0b1e071">巨集 (macro)</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">setf</span> *age* 16)
+(<span style="color: #00ffff;">if</span> (&gt;= *age* 16)
+    (<span style="color: #00ffff;">progn</span>
+      (print <span style="color: #ffc1c1;">"You are over 16"</span>)
+      (print <span style="color: #ffc1c1;">"You are ok to drive"</span>)
+      (terpri)
+      ))
+
+(<span style="color: #00ffff;">defmacro</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">ifit</span> (condition <span style="color: #63b8ff;">&amp;rest</span> body)
+  `(<span style="color: #00ffff;">if</span>, condition (<span style="color: #00ffff;">progn</span> ,@body) (print <span style="color: #ffc1c1;">"Can not drive"</span>)))
+
+(ifit (&gt;= *age* 16)
+      (print <span style="color: #ffc1c1;">"Your are over 16"</span>)
+      (print <span style="color: #ffc1c1;">"Time to Drive"</span>)
+      (terpri))
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org1b70fe3" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org1b70fe3">程式流程控制</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"><span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">if</span>
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">odd-or-even</span> (x)
+  (<span style="color: #00ffff;">if</span> (= 0 (% x 2))
+      <span style="color: #ffc1c1;">"even"</span>
+    <span style="color: #ffc1c1;">"odd"</span>))
+
+(odd-or-even 3)
+(odd-or-even 4)
+
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">cond</span>
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">pick-word</span> (n)
+  (<span style="color: #00ffff;">cond</span>
+   ((= n 1) <span style="color: #ffc1c1;">"gold"</span>)
+   ((= n 2) <span style="color: #ffc1c1;">"silver"</span>)
+   ((= n 3) <span style="color: #ffc1c1;">"bronz"</span>)
+   (t <span style="color: #ffc1c1;">"winner"</span>)))
+
+(pick-word 3)
+(pick-word 33)
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org00bb79e" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org00bb79e">程式流程控制</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"><span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">for-loop</span>
+(<span style="color: #00ffff;">loop</span> for x from 1 to 10
+      do (print x))
+
+(<span style="color: #00ffff;">dotimes</span> (y 12)
+  (print y))
+
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">recursive</span>
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">factorial</span> (n)
+  (<span style="color: #00ffff;">if</span> (&lt; n 1)
+  1
+  (* n (factorial (- n 1)))))
+
+(factorial 3)
+(factorial 10)
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-orgc2afd49" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc2afd49">程式範例 quicksort</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">require</span> '<span style="color: #8470ff; font-weight: bold;">cl</span>)
+(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">quicksort</span> (list)
+  <span style="color: #f08080; font-style: italic;">"quick sort using elisp"</span>
+  (<span style="color: #00ffff;">when</span> list
+    (<span style="color: #00ffff;">let</span> ( (p (car list))  (xs (cdr list) )  )
+      (<span style="color: #00ffff;">let</span> ((lesser (remove-if-not (<span style="color: #00ffff;">lambda</span> (x) (&lt; x p)) xs))
+            (greater (remove-if-not (<span style="color: #00ffff;">lambda</span> (x) (&gt;= x p)) xs)))
+        (append (quicksort lesser) (list p) (quicksort greater)))
+      )
+    )
+  )
+
+(quicksort '(3 6 2 9 7 5))
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org27426cf" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org27426cf">跟 Emacs 相關</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #ffc1c1;">"M-#"</span>) 'sort-lines)
+
+major-mode
+
+(add-hook 'c-mode-common-hook
+          (<span style="color: #00ffff;">lambda</span> ()
+            (local-set-key (kbd <span style="color: #ffc1c1;">"&lt;f5&gt;"</span>) 'recompile)
+            ))
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+<section>
+<section id="slide-org2cf3f5b" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org2cf3f5b">幫助</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(kbd <span style="color: #ffc1c1;">"C-h ?"</span>)
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">C-h k</span>
+(describe-key (kbd <span style="color: #ffc1c1;">"C-h k"</span>))
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">C-h a</span>
+(apropos-command <span style="color: #ffc1c1;">"region"</span> )
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">C-h f</span>
+(describe-function 'quicksort)
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">C-h v</span>
+(describe-variable 'path-separator)
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">C-h m</span>
+(describe-mode)
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">C-h C-h</span>
+(help-for-help)
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">build in elisp programming language introduction </span>
+(info <span style="color: #ffc1c1;">"(eintro) Top"</span>)
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">build in elisp</span>
+(info <span style="color: #ffc1c1;">"(elisp) Top"</span>)
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>

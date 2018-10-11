@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs magit-mode</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<style>
+pre.example { font-size: 16px;}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs magit-mode</h2><h3>洋蔥工作室</h3>
+</section>
+<section id="slide-org5a6b62d" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org5a6b62d">Emacs Magit</h2>
+<ul>
+<li>Magit 是 Git 的 Emacs 介面</li>
+<li>Magit 期望成為 Git 的 porcelain 就像 git (command line) 一樣</li>
+<li>使用 mini buffer 來做介面</li>
+
+</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org9ed54a0" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org9ed54a0">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/BlI8Rb5yw-Y" frameborder="0" allowfullscreen>Emacs Magit</iframe>
+</p>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgc302b04" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc302b04">安裝</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">magit</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:bind</span> ((<span style="color: #ffc1c1;">"C-x g"</span> . magit-status)))
+
+</pre>
+</div>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org2c5aaaa" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org2c5aaaa">使用 <code>C-x g ?</code></h2>
+<pre class="example">
+Popup and dwim commands
+ A Cherry-picking    b Branching         B Bisecting         c Committing
+ d Diffing           D Change diffs      e Ediff dwimming    E Ediffing
+ f Fetching          F Pulling           l Logging           L Change logs
+ m Merging           M Remoting          o Submodules        O Subtrees
+ P Pushing           r Rebasing          t Tagging           T Notes
+ V Reverting         w Apply patches     W Format patches    X Resetting
+ y Show Refs         z Stashing          ! Running           % Worktree
+
+Applying changes
+ a Apply          s Stage          u Unstage
+ v Reverse        S Stage all      U Unstage all
+ k Discard
+
+Essential commands
+ g     refresh current buffer
+ TAB   toggle section at point
+ RET   visit thing at point
+ C-h m show all key bindings
+
+</pre>
+<div class="slide-footer"></div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+,});
+</script>
+</body>
+</html>
