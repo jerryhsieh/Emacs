@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <title>Emacs for Python</title>
@@ -22,45 +22,44 @@
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<style>
+.reveal pre { font-size: 20px;}
+.reveal ul li { font-size: 20px;}
+</style>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs for Python</h2><h3>洋蔥工作室</h3>
 </section>
-<section id="slide-orgccf936d" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org27cbfb7" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="orgccf936d">Youtube 影片</h2>
-<div class="slide-footer"></div>
-</section>
-<section id="slide-org9eee902" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
-<div class="slide-header"></div>
-<h2 id="org9eee902">Emacs for Python</h2>
+<h2 id="org27cbfb7">emacs for python</h2>
 <ul>
-<li>Python mode
+<li>python mode
 <ul>
 <li>flycheck support flake8, pylint and pycompile</li>
 <li>pip install flake8, jedi, elpy</li>
 <li>interpreter in emacs</li>
 
 </ul></li>
-<li>Autopep8: auto format code
+<li>autopep8: auto format code
 <ul>
 <li>pip install autopep8</li>
 
 </ul></li>
-<li>Company-Jedi: code completion
+<li>company-jedi: code completion
 <ul>
 <li>include jedi-core, do not install jedi if you prefer company-mode
 <ul>
-<li>C-c ,      jedi:goto-definition-pop-marker</li>
-<li>C-c .      jedi:goto-definition</li>
-<li>C-c ?      jedi:show-doc</li>
+<li>c-c ,      jedi:goto-definition-pop-marker</li>
+<li>c-c .      jedi:goto-definition</li>
+<li>c-c ?      jedi:show-doc</li>
 
 </ul></li>
 
 </ul></li>
-<li>Elpy
+<li>elpy
 <ul>
 <li>support virtualenv</li>
 
@@ -69,48 +68,49 @@
 </ul>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-orgbe0ae57" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orgc6512db" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="orgbe0ae57">Emacs configuration</h2>
-<div class="org-src-container">
-
-<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">python</span>
-        <span style="color: #b0c4de;">:ensure</span> t
-        <span style="color: #b0c4de;">:mode</span> (<span style="color: #ffc1c1;">"\\.py\\'"</span> . python-mode)
-        <span style="color: #b0c4de;">:interpreter</span> (<span style="color: #ffc1c1;">"python"</span> . python-mode)
-        <span style="color: #b0c4de;">:config</span>
-        (<span style="color: #00ffff;">setq-default</span> indent-tabs-mode nil)
-        (<span style="color: #00ffff;">setq-default</span> python-indent-offset 4)
-        (<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">py-autopep8</span>
-                <span style="color: #b0c4de;">:ensure</span> t
-                <span style="color: #b0c4de;">:hook</span> ((python-mode . py-autopep8-enable-on-save))
-                )
-        )
-
-
-(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">company-jedi</span>
-        <span style="color: #b0c4de;">:ensure</span> t
-        <span style="color: #b0c4de;">:config</span>
-        (add-hook 'python-mode-hook 'jedi:setup)
-        (add-hook 'python-mode-hook (<span style="color: #00ffff;">lambda</span> ()
-                                                                                                                                (add-to-list (make-local-variable 'company-backends)
-                                                                                                                                                                                 'company-jedi)))
-        )
-
-(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">elpy</span>
-        <span style="color: #b0c4de;">:ensure</span> t
-        <span style="color: #b0c4de;">:commands</span> (elpy-enable)
-        <span style="color: #b0c4de;">:config</span>
-        (<span style="color: #00ffff;">setq</span> elpy-rpc-backend <span style="color: #ffc1c1;">"jedi"</span>)
-        )
-
-</pre>
-</div>
+<h2 id="orgc6512db">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/8BsiaEzEeH8" frameborder="0" allowfullscreen>Emacs Python</iframe>
+</p>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-orgd426968" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orgff086e9" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="orgd426968">Python project</h2>
+<h2 id="orgff086e9">emacs configuration</h2>
+<pre class="example">
+(use-package python
+  :ensure t
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode)
+  :config
+  (setq-default indent-tabs-mode nil)
+  (setq-default python-indent-offset 4)
+  (setq flycheck-flake8rc "~/.config/flake8")
+  (use-package py-autopep8
+    :ensure t
+    :hook ((python-mode . py-autopep8-enable-on-save))
+    ))
+(use-package company-jedi
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (add-hook 'python-mode-hook (lambda ()
+                                (add-to-list (make-local-variable 'company-backends)
+                                             'company-jedi))))
+(use-package elpy
+  :ensure t
+  :commands (elpy-enable)
+  :config
+  (setq elpy-rpc-backend "jedi"))
+</pre>
+
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgf17fa81" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgf17fa81">Python project</h2>
 <ul>
 <li>for Linux (CentOS 7) to install python36</li>
 
@@ -144,13 +144,9 @@ $<span style="color: #7fffd4;">sudo</span> yum install -y devtoolset-7
 </div>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org70187bf" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orga068ea0" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org70187bf">to install opencv</h2>
-<ul>
-<li>for linux (CentOS 7)</li>
-
-</ul>
+<h2 id="orga068ea0">Install opencv for linux (CentOS 7)</h2>
 <div class="org-src-container">
 
 <pre  class="src src-shell">$<span style="color: #7fffd4;">yum</span> groupinstall <span style="color: #ffc1c1;">"Development Tools"</span> -y
@@ -161,17 +157,18 @@ $<span style="color: #7fffd4;">cd</span> opencv
 $<span style="color: #7fffd4;">git</span> checkout 3.5
 $<span style="color: #7fffd4;">mkdir</span> build
 $<span style="color: #7fffd4;">cd</span> build
-$<span style="color: #7fffd4;">cmake</span> -D <span style="color: #7fffd4;">WITH_OPENCL</span>=OFF -D <span style="color: #7fffd4;">WITH_CUDA</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpu</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpuarithm</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpubgsegm</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpucodec</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpufeatures2d</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpufilters</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpuimgproc</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpulegacy</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpuoptflow</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpustereo</span>=OFF -D <span style="color: #7fffd4;">BUILD_opencv_gpuwarping</span>=OFF <span style="color: #7fffd4;">CMAKE_BUILD_TYPE</span>=RELEASE -D <span style="color: #7fffd4;">CMAKE_INSTALL_PREFIX</span>=/usr/local -D <span style="color: #7fffd4;">BUILD_opencv_python3</span>=yes -D <span style="color: #7fffd4;">PYTHON_EXECUTABLE</span>=/opt/rh/rh-python36/root/usr/bin/python -D <span style="color: #7fffd4;">PYTHON_INCLUDE_DIR</span>=/opt/rh/rh-python36/root/usr/include/python3.6m -D <span style="color: #7fffd4;">PYTHON_LIBRARY</span>=/opt/rh/rh-python36/root/usr/lib64/libpython3.6m.so.rh-python36-1.0 -d <span style="color: #7fffd4;">PYTHON3_NUMPY_INCLUDE_DIRS</span>=/opt/rh/rh-python36/root/usr/lib64/python3.6/site-packages/numpy/core/include -DWITH_FFMPEG=OFF ..
+$<span style="color: #7fffd4;">cmake</span> -D <span style="color: #7fffd4;">WITH_OPENCL</span>=OFF -D <span style="color: #7fffd4;">WITH_CUDA</span>=OFF -D <span style="color: #7fffd4;">CMAKE_BUILD_TYPE</span>=RELEASE -D <span style="color: #7fffd4;">CMAKE_INSTALL_PREFIX</span>=/usr/local -D <span style="color: #7fffd4;">BUILD_opencv_python3</span>=yes -D <span style="color: #7fffd4;">PYTHON3_EXECUTABLE</span>=/opt/rh/rh-python36/root/usr/bin/python -D <span style="color: #7fffd4;">PYTHON3_INCLUDE_DIR</span>=/opt/rh/rh-python36/root/usr/include/python3.6m -D <span style="color: #7fffd4;">PYTHON3_LIBRARY</span>=/opt/rh/rh-python36/root/usr/lib64/libpython3.6m.so.rh-python36-1.0 -d <span style="color: #7fffd4;">PYTHON3_NUMPY_INCLUDE_DIRS</span>=/opt/rh/rh-python36/root/usr/lib64/python3.6/site-packages/numpy/core/include -DWITH_FFMPEG=OFF ..
 $<span style="color: #7fffd4;">make</span> -j 2
 $<span style="color: #7fffd4;">sudo</span> make install
 $<span style="color: #7fffd4;">cd</span> /opt/rh/rh-python36/root/usr/lib64/python3.6/site-packages
 $<span style="color: #7fffd4;">sudo</span> ln -s /usr/local/lib/python3.6/site-packages/cv2.cpython-36-x86_64-linux-gnu.so cv2.so
 </pre>
 </div>
-<ul>
-<li>for Mac OS</li>
-
-</ul>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-org3b83a71" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="org3b83a71">Install opencv for Mac OS</h2>
 <div class="org-src-container">
 
 <pre  class="src src-shell">$<span style="color: #7fffd4;">git</span> clone https://github.com/opencv/opencv
@@ -187,15 +184,36 @@ $<span style="color: #7fffd4;">echo</span> /usr/local/lib/python3.6/site-package
 </div>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org0f9487f" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org3c999f3" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org0f9487f">Start a Django Project</h2>
+<h2 id="org3c999f3">Python opencv face detect</h2>
 <div class="org-src-container">
 
-<pre  class="src src-shell">$<span style="color: #7fffd4;">mkdir</span> python-project
-$<span style="color: #7fffd4;">virtualenv</span> ENV 
-$<span style="color: #7fffd4;">pip</span> install django
-$<span style="color: #7fffd4;">django</span>-admin startproject djangoproject
+<pre  class="src src-python"><span style="color: #00ffff;">import</span> cv2
+<span style="color: #00ffff;">import</span> sys
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">Get user supplied values</span>
+<span style="color: #7fffd4;">imagePath</span> = sys.argv[1]
+<span style="color: #7fffd4;">cascPath</span> = <span style="color: #ffc1c1;">"haarcascade_frontalface_default.xml"</span>
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">Create the haar cascade</span>
+<span style="color: #7fffd4;">faceCascade</span> = cv2.CascadeClassifier(cascPath)
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">Read the image</span>
+<span style="color: #7fffd4;">image</span> = cv2.imread(imagePath)
+<span style="color: #7fffd4;">gray</span> = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">Detect faces in the image</span>
+<span style="color: #7fffd4;">faces</span> = faceCascade.detectMultiScale(
+    gray,
+    scaleFactor=1.1,
+    minNeighbors=5,
+    minSize=(30, 30)
+    <span style="color: #fa8072;">#</span><span style="color: #ff7f24; font-style: italic;">flags = cv2.CV_HAAR_SCALE_IMAGE</span>
+)
+<span style="color: #00ffff;">print</span>(<span style="color: #ffc1c1;">"Found {0} faces!"</span>.<span style="color: #b0c4de;">format</span>(<span style="color: #b0c4de;">len</span>(faces)))
+<span style="color: #fa8072;"># </span><span style="color: #ff7f24; font-style: italic;">Draw a rectangle around the faces</span>
+<span style="color: #00ffff;">for</span> (x, y, w, h) <span style="color: #00ffff;">in</span> faces:
+    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+cv2.imshow(<span style="color: #ffc1c1;">"Faces found"</span>, image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 </pre>
 </div>
 <div class="slide-footer"></div>
