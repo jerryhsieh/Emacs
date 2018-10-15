@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>Emacs yasnippet</title>
+<title>Emacs Web Mode</title>
 <meta name="author" content="(洋蔥工作室)"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
@@ -26,63 +26,21 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs yasnippet</h2><h3>洋蔥工作室</h3>
+<section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs Web Mode</h2><h3>洋蔥工作室</h3>
 </section>
-<section id="slide-orga9d5bdc" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orge8f76ee" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="orga9d5bdc">Emacs yasnippet</h2>
+<h2 id="orge8f76ee">Youtube 影片</h2>
+<div class="slide-footer"></div>
+</section>
+<section id="slide-orgc3c02bb" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<div class="slide-header"></div>
+<h2 id="orgc3c02bb">Emacs Web-mode</h2>
 <ul>
-<li>Yasnippet 功能: 只要打 key 就會代入程式片段</li>
-<li>可以下載別人寫好的程式語言片段</li>
-<li>可以自己定義程式片段</li>
-<li>不同主模式帶不同的程式語言片段列表</li>
+<li>是 Emacs 用來編輯 Web-template 的主模式</li>
+<li>HTML 裡可以內嵌 (CSS/Javascript)</li>
 
 </ul>
-<div class="slide-footer"></div>
-</section>
-<section id="slide-org3b02e22" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
-<div class="slide-header"></div>
-<h2 id="org3b02e22">Youtube 影片</h2>
-<p>
-<iframe width="440" height="335" src="https://www.youtube.com/embed/uVMNQAvCZoE" frameborder="0" allowfullscreen>Emacs yasnippet</iframe>
-</p>
-<div class="slide-footer"></div>
-</section>
-<section id="slide-org7932b99" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
-<div class="slide-header"></div>
-<h2 id="org7932b99">安裝</h2>
-<div class="org-src-container">
-
-<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">yasnippet</span>
-  <span style="color: #b0c4de;">:ensure</span> t
-  <span style="color: #b0c4de;">:config</span>
-  (yas-global-mode)
-  (<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">yasnippet-snippets</span> <span style="color: #b0c4de;">:ensure</span> t))
-
-</pre>
-</div>
-<div class="slide-footer"></div>
-</section>
-<section id="slide-org0771e5f" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
-<div class="slide-header"></div>
-<h2 id="org0771e5f">自訂 snippet</h2>
-<ul>
-<li>C-c &amp; C-n new snippet</li>
-<li>example</li>
-
-</ul>
-<div class="org-src-container">
-
-<pre  class="src src-emacs-lisp"># -*- mode: snippet<span style="color: #fa8072;">; </span><span style="color: #ff7f24; font-style: italic;">-*-</span>
-#contributor: Xah Lee (XahLee.org)
-#name: add-hook
-#key: add-hook
-#key: ah
-# --
-(add-hook '${1:name}-hook ${2:'${3:function}})$0
-
-</pre>
-</div>
 <div class="slide-footer"></div>
 </section>
 </section>

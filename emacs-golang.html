@@ -7,9 +7,9 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
 
-<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
 
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -18,27 +18,30 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<style>
+.reveal ul li { font-size: 20px;}
+</style>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs go mode</h2><h3>洋蔥工作室</h3>
 </section>
-<section id="slide-org9296889" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org6adff10" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org9296889">Youtube 影片</h2>
+<h2 id="org6adff10">Youtube 影片</h2>
 <p>
 <iframe width="440" height="335" src="https://www.youtube.com/embed/-HMnhmwwxnc" frameborder="0" allowfullscreen>Emacs Go</iframe>
 </p>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-orgf824221" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orgc237515" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="orgf824221">Emacs Go Mode</h2>
+<h2 id="orgc237515">Emacs Go Mode</h2>
 <ul>
 <li>Go mode
 <ul>
@@ -63,9 +66,9 @@
 </ul>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org33b4f36" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org5bc8464" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org33b4f36">安裝及環境設定</h2>
+<h2 id="org5bc8464">安裝及環境設定</h2>
 <ul>
 <li>先安裝 Go <a href="https://golang.org">https://golang.org</a></li>
 <li>修改 ~.bash_profile</li>
@@ -95,9 +98,9 @@ export PATH=$PATH:$GOPATH/bin
 </ul>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org58e778b" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orged073d1" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org58e778b">go 安裝</h2>
+<h2 id="orged073d1">go 安裝</h2>
 <pre class="example">
 $go get golang.org/x/tools/cmd/goimports
 $go get golang.org/x/tools/cmd/godoc
@@ -109,9 +112,9 @@ $go get golang.org/x/tools/cmd/gorename
 </pre>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org9558ef8" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org51941ec" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org9558ef8">Emacs 安裝</h2>
+<h2 id="org51941ec">Emacs 安裝</h2>
 <pre class="example">
 (use-package go-mode
   :ensure t
@@ -138,17 +141,17 @@ $go get golang.org/x/tools/cmd/gorename
 </pre>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org4a245ef" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orgef656f7" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org4a245ef">讓 company-go 認得自己的 package</h2>
+<h2 id="orgef656f7">讓 company-go 認得自己的 package</h2>
 <pre class="example">
 $gocode set autobuild true
 </pre>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org31fa673" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org8d571a8" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org31fa673">簡單測試程式</h2>
+<h2 id="org8d571a8">簡單測試程式</h2>
 <p>
 <code>github.com/xxx/myproject/myutil/main.go</code>
 </p>
@@ -190,8 +193,8 @@ func main() {
 </section>
 </div>
 </div>
-<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
-<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
@@ -218,11 +221,11 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
- { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
 ,});
 </script>
 </body>
