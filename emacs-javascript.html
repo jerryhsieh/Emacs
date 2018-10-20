@@ -22,32 +22,35 @@
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<style>
+.reveal pre { font-size: 18px;}
+</style>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs for Javascript</h2><h3>洋蔥工作室</h3>
 </section>
-<section id="slide-org2a835fe" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orga5439c0" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org2a835fe">Emacs for Javascript</h2>
+<h2 id="orga5439c0">Emacs for Javascript</h2>
 <ul>
 <li>介紹 Emacs 作為 Javascript 編輯器的套件支援</li>
 
 </ul>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org9daf97b" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org4fae103" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org9daf97b">Youtube 影片</h2>
+<h2 id="org4fae103">Youtube 影片</h2>
 <p>
-<iframe width="440" height="335" src="https://www.youtube.com/embed/ec_Q6-w1RpI" frameborder="0" allowfullscreen>Emacs Javascript</iframe>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/Cc8vLAg9VTo" frameborder="0" allowfullscreen>Emacs Javascript</iframe>
 </p>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org8cbc732" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org66b0fcf" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org8cbc732">Emacs for Javascript</h2>
+<h2 id="org66b0fcf">Emacs for Javascript</h2>
 <ul>
 <li>js2-mode
 <ul>
@@ -71,9 +74,9 @@
 </ul>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org42a6586" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orgf6e1341" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org42a6586">js2-mode  安裝</h2>
+<h2 id="orgf6e1341">js2-mode  安裝</h2>
 <pre class="example">
 (use-package js2-mode
   :ensure t
@@ -81,15 +84,15 @@
          ("\\.json\\'" . javascript-mode))
   :init
   (setq-default js2-basic-offset 2)
-	(setq-default js2-global-externs '("module" "require" "assert" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__d\
+  (setq-default js2-global-externs '("module" "require" "assert" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__d\
 irname" "console" "JSON")))
 </pre>
 
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org16a1d3b" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orgc5dbf31" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org16a1d3b">tide-mode 安裝</h2>
+<h2 id="orgc5dbf31">tide-mode 安裝</h2>
 <pre class="example">
 (defun setup-tide-mode ()
   (interactive)
@@ -116,9 +119,9 @@ irname" "console" "JSON")))
 </pre>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org95448fd" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org73e6f09" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org95448fd">prettier 安裝</h2>
+<h2 id="org73e6f09">prettier 安裝</h2>
 <ul>
 <li>先安裝 prettier</li>
 
@@ -143,9 +146,9 @@ irname" "console" "JSON")))
 </pre>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org717d401" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org6c27881" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org717d401">eslint 安裝</h2>
+<h2 id="org6c27881">eslint 安裝</h2>
 <ul>
 <li>安裝 eslint</li>
 
