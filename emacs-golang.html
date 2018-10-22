@@ -24,6 +24,7 @@
 </script>
 <style>
 .reveal ul li { font-size: 20px;}
+.reveal pre { font-size: 18px;}
 </style>
 </head>
 <body>
@@ -31,17 +32,17 @@
 <div class="slides">
 <section id="sec-title-slide" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition=""><h2>Emacs go mode</h2><h3>洋蔥工作室</h3>
 </section>
-<section id="slide-org6adff10" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org73ce6bf" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org6adff10">Youtube 影片</h2>
+<h2 id="org73ce6bf">Youtube 影片</h2>
 <p>
-<iframe width="440" height="335" src="https://www.youtube.com/embed/-HMnhmwwxnc" frameborder="0" allowfullscreen>Emacs Go</iframe>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/fCqwMRSagTU" frameborder="0" allowfullscreen>Emacs Go</iframe>
 </p>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-orgc237515" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org3aad49f" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="orgc237515">Emacs Go Mode</h2>
+<h2 id="org3aad49f">Emacs Go Mode</h2>
 <ul>
 <li>Go mode
 <ul>
@@ -66,9 +67,9 @@
 </ul>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org5bc8464" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org1458939" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org5bc8464">安裝及環境設定</h2>
+<h2 id="org1458939">安裝及環境設定</h2>
 <ul>
 <li>先安裝 Go <a href="https://golang.org">https://golang.org</a></li>
 <li>修改 ~.bash_profile</li>
@@ -98,9 +99,9 @@ export PATH=$PATH:$GOPATH/bin
 </ul>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-orged073d1" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org4153d18" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="orged073d1">go 安裝</h2>
+<h2 id="org4153d18">go 安裝</h2>
 <pre class="example">
 $go get golang.org/x/tools/cmd/goimports
 $go get golang.org/x/tools/cmd/godoc
@@ -112,9 +113,9 @@ $go get golang.org/x/tools/cmd/gorename
 </pre>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org51941ec" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orgb506975" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org51941ec">Emacs 安裝</h2>
+<h2 id="orgb506975">Emacs 安裝</h2>
 <pre class="example">
 (use-package go-mode
   :ensure t
@@ -141,17 +142,17 @@ $go get golang.org/x/tools/cmd/gorename
 </pre>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-orgef656f7" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-org40bf07e" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="orgef656f7">讓 company-go 認得自己的 package</h2>
+<h2 id="org40bf07e">讓 company-go 認得自己的 package</h2>
 <pre class="example">
 $gocode set autobuild true
 </pre>
 <div class="slide-footer"></div>
 </section>
-<section id="slide-org8d571a8" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
+<section id="slide-orga9434f1" data-background="" data-background-size="" data-background-position="" data-background-repeat="" data-background-transition="">
 <div class="slide-header"></div>
-<h2 id="org8d571a8">簡單測試程式</h2>
+<h2 id="orga9434f1">簡單測試程式</h2>
 <p>
 <code>github.com/xxx/myproject/myutil/main.go</code>
 </p>

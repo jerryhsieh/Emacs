@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs Ruby</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2>Emacs Ruby</h2><h3>洋蔥工作室</h3>
+</section>
+<section>
+<section id="slide-org6420334">
+<h2 id="org6420334">Emacs Ruby</h2>
+<ul>
+<li>robe
+<ul>
+<li>程式補全：company-robe</li>
+<li>跳到函式定義：jump to def</li>
+
+</ul></li>
+<li>rubocop
+<ul>
+<li>語法檢查：flycheck + rubocop</li>
+
+</ul></li>
+<li>rufo
+<ul>
+<li>程式美化</li>
+
+</ul></li>
+<li>projectile-rails
+<ul>
+<li>Ruby on Rails 專案</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb8b393d">
+<h2 id="orgb8b393d">預先安裝</h2>
+<ul>
+<li><p>
+robe 需要先安裝
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">gem</span> install pry pry-doc
+</pre>
+</div></li>
+<li><p>
+rufo
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">gem</span> install rufo
+</pre>
+</div></li>
+<li><p>
+rubocop
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">gem</span> install rubocop
+</pre>
+</div>
+<p>
+即設定檔 <code>.rubocop.yml</code>
+</p>
+<pre class="example">
+AllCops:   
+  Exclude:     
+    - 'db/**/*'     
+    - 'config/**/*'     
+    - 'script/**/*'
+</pre></li>
+
+</ul>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orga6fe689">
+<h2 id="orga6fe689">安裝 ruby-mode 跟 rvm</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">ruby-mode</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:mode</span> (<span style="color: #ffc1c1;">"\\.rb\\'"</span> <span style="color: #ffc1c1;">"Rakefile\\'"</span> <span style="color: #ffc1c1;">"Gemfile\\'"</span> <span style="color: #ffc1c1;">"Berksfile\\'"</span> <span style="color: #ffc1c1;">"Vagrantfile\\'"</span>)
+  <span style="color: #b0c4de;">:interpreter</span> <span style="color: #ffc1c1;">"ruby"</span>
+  <span style="color: #b0c4de;">:bind</span> (<span style="color: #b0c4de;">:map</span> ruby-mode-map
+            (<span style="color: #ffc1c1;">"}"</span> . my-ruby-close-brace)
+            (<span style="color: #ffc1c1;">"\C-c r a"</span> . rvm-activate-corresponding-ruby)
+            (<span style="color: #ffc1c1;">"\C-c r r"</span> . inf-ruby))
+  <span style="color: #b0c4de;">:config</span>
+  (<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">rvm</span>
+    <span style="color: #b0c4de;">:ensure</span> t
+    <span style="color: #b0c4de;">:config</span>
+    (rvm-use-default))
+  (add-hook 'ruby-mode-hook (<span style="color: #00ffff;">lambda</span> ()
+                            (add-to-list (make-local-variable 'company-backends)
+                                         '(company-robe))))
+)
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org4a3b8ca">
+<h2 id="org4a3b8ca">安裝 inf-ruby 跟 ruby-electric</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">inf-ruby</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:hook</span> (ruby-mode . inf-ruby-minor-mode)
+  <span style="color: #b0c4de;">:config</span>
+)
+
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">ruby-electric</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:hook</span> (ruby-mode . ruby-electric-mode)
+)
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org1bb74fb">
+<h2 id="org1bb74fb">安裝 robe</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">robe</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:hook</span> (ruby-mode . robe-mode)
+  <span style="color: #b0c4de;">:bind</span> (<span style="color: #ffc1c1;">"C-M-."</span> . robe-jump)
+  <span style="color: #b0c4de;">:config</span>
+  (<span style="color: #00ffff;">defadvice</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">inf-ruby-console-auto</span> (before activate-rvm-for-robe activate)
+  (rvm-activate-corresponding-ruby))
+)
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org8c71f0d">
+<h2 id="org8c71f0d">安裝 rubocop</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">rubocop</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:hook</span> (ruby-mode . rubocop-mode)
+  <span style="color: #b0c4de;">:diminish</span> rubocop-mode
+)
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orga2b0ad7">
+<h2 id="orga2b0ad7">安裝 projectile-rails</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">projectile-rails</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:hook</span> (projectile-mode . projectile-rails-on)
+)
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org4475069">
+<h2 id="org4475069">安裝 rufo</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">rufo</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:hook</span> (ruby-mode . rufo-minor-mode)
+)
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org3f7eacd">
+<h2 id="org3f7eacd">使用 robe</h2>
+<ul>
+<li>先啟動 <code>Meta-x inf-ruby-console-auto</code> 或者 <code>Ctrl-c Ctrl-s</code></li>
+<li>手動啟動 <code>Meta-x robe-start</code></li>
+<li>使用 <code>Ctrl-c Ctrl-l</code> 來載入程式</li>
+<li>如果使用 rails 可以使用 <code>Ctrl-c Ctrl-k</code></li>
+<li>使用 rvm 須先設定</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">defadvice</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">inf-ruby-console-auto</span> (before activate-rvm-for-robe activate)
+   (rvm-activate-corresponding-ruby))
+</pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
