@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs C#</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2>Emacs C#</h2><h3>洋蔥工作室</h3>
+</section>
+<section>
+<section id="slide-orgf9cb044">
+<h2 id="orgf9cb044">Emacs for C#</h2>
+<ul>
+<li>csharp-mode
+<ul>
+<li>程式高亮</li>
+<li>Yasnippet</li>
+
+</ul></li>
+<li>omnisharp-mode
+<ul>
+<li>程式補全</li>
+<li>語法檢查</li>
+<li>程式排版美化</li>
+<li>顯示變數資料型態</li>
+<li>跳到函式定義</li>
+<li>重新命名函式或變數</li>
+<li>重構建議&#x2026;</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org79aae16">
+<h2 id="org79aae16">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/CaTKjtYY5Ls" frameborder="0" allowfullscreen>Emacs c#</iframe>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orge7e9291">
+<h2 id="orge7e9291">預先安裝</h2>
+<ul>
+<li>先安裝 .NET Core <a href="https://www.microsoft.com/net/download">https://www.microsoft.com/net/download</a></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org432e46d">
+<h2 id="org432e46d">安裝</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">csharp-mode</span>
+  <span style="color: #b0c4de;">:ensure</span> t)
+
+
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">omnisharp</span>
+  <span style="color: #b0c4de;">:ensure</span> t
+  <span style="color: #b0c4de;">:hook</span> ((csharp-mode . omnisharp-mode)
+       (before-save . omnisharp-code-format-entire-file))
+  <span style="color: #b0c4de;">:config</span>
+  (add-hook 'omnisharp-mode-hook (<span style="color: #00ffff;">lambda</span>()
+                              (add-to-list (make-local-variable 'company-backends)
+                                           '(company-omnisharp))))
+)
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgd846bd0">
+<h2 id="orgd846bd0">安裝 omnisharp server</h2>
+<pre class="example">
+Meta-x omnisharp-install-server
+</pre>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
