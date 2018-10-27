@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs 寫 Vue.js</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<style>
+.reveal pre { font-size: 16px;}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2>Emacs 寫 Vue.js</h2><h3>洋蔥工作室</h3>
+</section>
+<section>
+<section id="slide-org3ac1b1a">
+<h2 id="org3ac1b1a">Emacs for Vue.js</h2>
+<ul>
+<li>主要使用 web-mode</li>
+<li>程式補全：主要用 company-tide 加上 company-web-html, company-css</li>
+<li>語法檢查：使用專案本身的 eslint, 加上 vue/essential plugin</li>
+<li>支援 css 顏色顯示</li>
+<li>支援使用 emmet</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org257de10">
+<h2 id="org257de10">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/aS9uvoED0q0" frameborder="0" allowfullscreen>Emacs Vuejs</iframe>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org2de8e8e">
+<h2 id="org2de8e8e">修改之前的 web-mode 設定</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">web-mode</span>
+<span style="color: #b0c4de;">:ensure</span> t
+<span style="color: #b0c4de;">:mode</span> ((<span style="color: #ffc1c1;">"\\.html\\'"</span> . web-mode)
+       (<span style="color: #ffc1c1;">"\\.erb\\'"</span> . web-mode)
+       (<span style="color: #ffc1c1;">"\\.vue\\'"</span> . web-mode))
+<span style="color: #b0c4de;">:config</span>
+(<span style="color: #00ffff;">setq</span> web-mode-markup-indent-offset 2)
+(<span style="color: #00ffff;">setq</span> web-mode-css-indent-offset 2)
+(<span style="color: #00ffff;">setq</span> web-mode-code-indent-offset 2)
+(<span style="color: #00ffff;">setq</span> web-mode-enable-current-element-highlight t)
+(<span style="color: #00ffff;">setq</span> web-mode-enable-css-colorization t)
+(set-face-attribute 'web-mode-html-tag-face nil <span style="color: #b0c4de;">:foreground</span> <span style="color: #ffc1c1;">"royalblue"</span>)
+(set-face-attribute 'web-mode-html-attr-name-face nil <span style="color: #b0c4de;">:foreground</span> <span style="color: #ffc1c1;">"powderblue"</span>)
+(set-face-attribute 'web-mode-doctype-face nil <span style="color: #b0c4de;">:foreground</span> <span style="color: #ffc1c1;">"lightskyblue"</span>)
+(<span style="color: #00ffff;">setq</span> web-mode-content-types-alist
+      '((<span style="color: #ffc1c1;">"vue"</span> . <span style="color: #ffc1c1;">"\\.vue\\'"</span>)))
+(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">company-web</span>
+  <span style="color: #b0c4de;">:ensure</span> t)
+(add-hook 'web-mode-hook (<span style="color: #00ffff;">lambda</span>()
+                           (<span style="color: #00ffff;">cond</span> ((equal web-mode-content-type <span style="color: #ffc1c1;">"html"</span>)
+                                  (my/web-html-setup)))
+                           (<span style="color: #00ffff;">cond</span> ((equal web-mode-content-type <span style="color: #ffc1c1;">"vue"</span>)
+                                  (my/web-vue-setup)))
+                           ))
+
+)
+
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgdebd52f">
+<h2 id="orgdebd52f">建立 my/web-vue-setup</h2>
+<ul>
+<li>當 web-mode-content-type 為 "vue" 時，啟動這個函式來做設定</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">my/web-vue-setup</span> ()
+<span style="color: #f08080; font-style: italic;">"Setup for web-mode vue files."</span>
+(message <span style="color: #ffc1c1;">"web-mode for vue setup"</span>)
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+(my/use-eslint-from-node-modules)
+(flycheck-select-checker 'javascript-eslint)
+(flycheck-mode)
+(add-hook 'web-mode-hook #'setup-tide-mode)
+(add-hook 'web-mode-hook #'prettier-js-mode)
+(add-to-list (make-local-variable 'company-backends)
+             '(company-tide company-web-html company-files company-css))
+)
+
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgdfcf990">
+<h2 id="orgdfcf990">eslint 使用專案本身設定</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">defun</span> <span style="color: #00fa9a; font-size: 110%; font-weight: bold;">my/use-eslint-from-node-modules</span> ()
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">use local eslint from node_modules before global</span>
+<span style="color: #fa8072;">;; </span><span style="color: #ff7f24; font-style: italic;">http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable</span>
+(<span style="color: #00ffff;">let*</span> ((root (locate-dominating-file
+              (<span style="color: #00ffff;">or</span> (buffer-file-name) default-directory)
+              <span style="color: #ffc1c1;">"node_modules"</span>))
+       (eslint (<span style="color: #00ffff;">and</span> root
+                    (expand-file-name <span style="color: #ffc1c1;">"node_modules/eslint/bin/eslint.js"</span>
+                                      root))))
+  (<span style="color: #00ffff;">when</span> (<span style="color: #00ffff;">and</span> eslint (file-executable-p eslint))
+    (<span style="color: #00ffff;">setq-local</span> flycheck-javascript-eslint-executable eslint))))
+</pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
