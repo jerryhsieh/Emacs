@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs for Angular</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2>Emacs for Angular</h2><h3>洋蔥工作室</h3>
+</section>
+<section>
+<section id="slide-org7425503">
+<h2 id="org7425503">Emacs for Angular</h2>
+<ul>
+<li>程式自動補全: company + tide</li>
+<li>語法檢查: flycheck + tide</li>
+<li>定義顯示: Eldoc + tide</li>
+<li>跳到函式定義: tide</li>
+<li>尋找變數，函式出現處：tide</li>
+<li>重新命名: tide</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org1c7db18">
+<h2 id="org1c7db18">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/EQ1ms8oA4MI" frameborder="0" allowfullscreen>Emacs Angular</iframe>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgebc0ef4">
+<h2 id="orgebc0ef4">安裝</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">tide</span>
+<span style="color: #b0c4de;">:ensure</span> t
+<span style="color: #b0c4de;">:after</span> (typescript-mode company flycheck)
+<span style="color: #b0c4de;">:hook</span> ((typescript-mode . tide-setup)
+       (typescript-mode . tide-hl-identifier-mode))
+<span style="color: #b0c4de;">:config</span>
+(<span style="color: #00ffff;">setq</span> tide-completion-enable-autoimport-suggestions t)
+)
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgf9fb540">
+<h2 id="orgf9fb540">啟動及執行新的專案</h2>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">ng</span> new hello
+$<span style="color: #7fffd4;">ng</span> serve (--host 0.0.0.0 -- --port xxxx)
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgd014a6f">
+<h2 id="orgd014a6f">使用 bootstrap</h2>
+<ul>
+<li>$npm install bootstrap -S</li>
+<li>修改 style.css 加入</li>
+
+</ul>
+<pre  class="example">
+@import "~bootstrap/dist/css/bootstrap.css"
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-orge19890d">
+<h2 id="orge19890d">建立新的 component</h2>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$ ng generate component posts
+CREATE src/app/posts/posts.component.css (0 bytes)
+CREATE src/app/posts/posts.component.html (23 bytes)
+CREATE src/app/posts/posts.component.spec.ts (614 bytes)
+CREATE src/app/posts/posts.component.ts (261 bytes)
+UPDATE src/app/app.module.ts (545 bytes)
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org6454051">
+<h2 id="org6454051">加入畫面</h2>
+<div class="org-src-container">
+
+<pre  class="src src-html">&lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"container"</span>&gt;
+  &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"row"</span>&gt;
+    &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"col-md-6"</span>&gt;
+      &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card mb-4 shadow-sm"</span>&gt;
+        &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-body"</span>&gt;
+          &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-title"</span>&gt;title&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+          &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-text"</span>&gt;card text&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+          &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">a</span> <span style="color: #7fffd4;">href</span>=<span style="color: #ffc1c1;">""</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"btn btn-outline-primary"</span>&gt;More...&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">a</span>&gt;
+        &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+      &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+    &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+  &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="%E5%8A%A0%E5%85%A5%E7%95%AB%E9%9D%A2/screen_2018-10-27_19-41-22.png" alt="screen_2018-10-27_19-41-22.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org6fd8b9f">
+<h2 id="org6fd8b9f">加入 Post type</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">export</span> <span style="color: #00ffff;">class</span> Post {
+  id: number;
+  title: string;
+  body: string;
+}
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org43d15e6">
+<h2 id="org43d15e6">加入 services/mock-posts.ts</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"> <span style="color: #00ffff;">import</span> { Post} from <span style="color: #ffc1c1;">'../models/post'</span>;
+
+ <span style="color: #00ffff;">export</span> <span style="color: #00ffff;">const</span> <span style="color: #7fffd4;">POSTS</span>: Post[] = [
+   {id: 1, title: <span style="color: #ffc1c1;">'first post'</span>, body: <span style="color: #ffc1c1;">'first post content'</span>},
+   {id: 2, title: <span style="color: #ffc1c1;">'secon post'</span>, body: <span style="color: #ffc1c1;">'second post content'</span>},
+   {id: 3, title: <span style="color: #ffc1c1;">'third post'</span>, body: <span style="color: #ffc1c1;">'third post content'</span>},
+   {id: 4, title: <span style="color: #ffc1c1;">'forth post'</span>, body: <span style="color: #ffc1c1;">'forth post content'</span>},    
+
+]
+
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgfb8dc2f">
+<h2 id="orgfb8dc2f">修改 posts.components.ts,</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> { Component, OnInit } from <span style="color: #ffc1c1;">'@angular/core'</span>;
+<span style="color: #00ffff;">import</span> { POSTS } from <span style="color: #ffc1c1;">'../services/mock-posts'</span>;
+@Component({
+  selector: <span style="color: #ffc1c1;">'app-posts'</span>,
+  templateUrl: <span style="color: #ffc1c1;">'./posts.component.html'</span>,
+  styleUrls: [<span style="color: #ffc1c1;">'./posts.component.css'</span>]
+  })
+
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">class</span> PostsComponent <span style="color: #00ffff;">implements</span> OnInit {
+  posts = POSTS;
+  constructor() { }
+
+  ngOnInit() {
+      console.log(<span style="color: #8470ff; font-weight: bold;">this</span>.posts);
+  }
+}
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org0230a98">
+<h2 id="org0230a98">修改 posts.components.html</h2>
+<div class="org-src-container">
+
+<pre  class="src src-html">&lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"container"</span>&gt;
+  &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">h2</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"text-center my-4"</span>&gt;<span style="font-weight: bold; font-style: italic; text-decoration: underline;">List of Posts</span>&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">h2</span>&gt;
+    &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"row"</span>&gt;
+      &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"col-md-6"</span> *ngFor=<span style="color: #ffc1c1;">"let post of posts"</span>&gt;
+        &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card mb-4 shadow-sm"</span>&gt;
+          &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-body"</span>&gt;
+            &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-title"</span>&gt;{{post.title}}&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+            &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-text mb-3"</span>&gt;{{post.body}}&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+            &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">a</span> <span style="color: #7fffd4;">href</span>=<span style="color: #ffc1c1;">""</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"btn btn-outline-primary"</span>&gt;More...&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">a</span>&gt;
+          &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+        &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+      &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+    &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+  &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="%E4%BF%AE%E6%94%B9%20posts.components.html/screen2_2018-10-27_20-20-41.png" alt="screen2_2018-10-27_20-20-41.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org52fe974">
+<h2 id="org52fe974">增加 posts service</h2>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">ng</span> generate service posts
+CREATE src/app/services/posts.service.spec.ts (328 bytes)
+CREATE src/app/services/posts.service.ts (134 bytes)
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org3133193">
+<h2 id="org3133193">使用 rxjs 來建立 posts service</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> { Injectable } from <span style="color: #ffc1c1;">'@angular/core'</span>;
+
+<span style="color: #00ffff;">import</span> { Post } from <span style="color: #ffc1c1;">'../models/post'</span>;
+<span style="color: #00ffff;">import</span> { POSTS } from <span style="color: #ffc1c1;">'./mock-posts'</span>;
+<span style="color: #00ffff;">import</span> { Observable, of } from <span style="color: #ffc1c1;">'rxjs'</span>;
+
+@Injectable({
+  providedIn: <span style="color: #ffc1c1;">'root'</span>
+})
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">class</span> PostsService {
+  constructor() { }
+  getPosts(): Observable&lt;Post[]&gt; {
+      <span style="color: #00ffff;">return</span> of(POSTS);
+  }
+}
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org1614137">
+<h2 id="org1614137">post.components.ts 用 subscribe 來接 rxjs</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> { Component, OnInit } from <span style="color: #ffc1c1;">'@angular/core'</span>;
+<span style="color: #00ffff;">import</span> { PostsService } from <span style="color: #ffc1c1;">'../services/posts.service'</span>;
+
+@Component({
+  selector: <span style="color: #ffc1c1;">'app-posts'</span>,
+  templateUrl: <span style="color: #ffc1c1;">'./posts.component.html'</span>,
+  styleUrls: [<span style="color: #ffc1c1;">'./posts.component.css'</span>]
+  })
+
+  <span style="color: #00ffff;">export</span> <span style="color: #00ffff;">class</span> PostsComponent <span style="color: #00ffff;">implements</span> OnInit {
+    posts = [];
+    constructor(<span style="color: #00ffff;">private</span> postService:PostsService) { }
+
+    ngOnInit() {
+       <span style="color: #8470ff; font-weight: bold;">this</span>.getPosts();
+    }
+
+    getPosts() {
+      <span style="color: #8470ff; font-weight: bold;">this</span>.postService.getPosts()
+          .subscribe(posts =&gt; <span style="color: #8470ff; font-weight: bold;">this</span>.posts = posts);
+    }
+}
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orge2e016d">
+<h2 id="orge2e016d">加入 HttpClientModule</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> { BrowserModule } from <span style="color: #ffc1c1;">'@angular/platform-browser'</span>;
+<span style="color: #00ffff;">import</span> { NgModule } from <span style="color: #ffc1c1;">'@angular/core'</span>;
+<span style="color: #00ffff;">import</span> { HttpClientModule } from <span style="color: #ffc1c1;">'@angular/common/http'</span>;
+
+<span style="color: #00ffff;">import</span> { AppRoutingModule } from <span style="color: #ffc1c1;">'./app-routing.module'</span>;
+<span style="color: #00ffff;">import</span> { AppComponent } from <span style="color: #ffc1c1;">'./app.component'</span>;
+<span style="color: #00ffff;">import</span> { PostsComponent } from <span style="color: #ffc1c1;">'./posts/posts.component'</span>;
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    PostsComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">class</span> AppModule { }
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org39d0158">
+<h2 id="org39d0158">修改 posts.service</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> { Injectable } from <span style="color: #ffc1c1;">'@angular/core'</span>;
+<span style="color: #00ffff;">import</span> { HttpClient, HttpHeaders } from <span style="color: #ffc1c1;">'@angular/common/http'</span>;
+
+<span style="color: #00ffff;">import</span> { Post } from <span style="color: #ffc1c1;">'../models/post'</span>;
+<span style="color: #fa8072;">//</span><span style="color: #ff7f24; font-style: italic;">import { POSTS } from './mock-posts';</span>
+<span style="color: #00ffff;">import</span> { Observable, of } from <span style="color: #ffc1c1;">'rxjs'</span>;
+
+
+@Injectable({
+  providedIn: <span style="color: #ffc1c1;">'root'</span>
+  })
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">class</span> PostsService {
+
+  constructor(<span style="color: #00ffff;">private</span> http:HttpClient) { }
+
+  getPosts(): Observable&lt;Post[]&gt; {
+     <span style="color: #fa8072;">//</span><span style="color: #ff7f24; font-style: italic;">return of(POSTS);</span>
+     <span style="color: #00ffff;">return</span> <span style="color: #8470ff; font-weight: bold;">this</span>.http.get&lt;Post[]&gt;(<span style="color: #ffc1c1;">"https://jsonplaceholder.typicode.com/posts?userId=1"</span>);
+   }
+}
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="%E4%BF%AE%E6%94%B9%20posts.service/screen3_2018-10-27_21-18-36.png" alt="screen3_2018-10-27_21-18-36.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orga507653">
+<h2 id="orga507653">加入 slice pipe</h2>
+<div class="org-src-container">
+
+<pre  class="src src-html">&lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"container"</span>&gt;
+&lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">h2</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"text-center my-4"</span>&gt;<span style="font-weight: bold; font-style: italic; text-decoration: underline;">List of Posts</span>&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">h2</span>&gt;
+&lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"row"</span>&gt;
+  &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"col-md-6"</span> *ngFor=<span style="color: #ffc1c1;">"let post of posts"</span>&gt;
+    &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card mb-4 shadow-sm"</span>&gt;
+      &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-body"</span>&gt;
+        &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-title"</span>&gt;{{post.title}}&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+        &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"card-text mb-3"</span>&gt;{{post.body | slice:0:50 }}...&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+        &lt;<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">a</span> <span style="color: #7fffd4;">href</span>=<span style="color: #ffc1c1;">""</span> <span style="color: #7fffd4;">class</span>=<span style="color: #ffc1c1;">"btn btn-outline-primary"</span>&gt;More...&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">a</span>&gt;
+      &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+    &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+  &lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+&lt;/<span style="color: #00fa9a; font-size: 110%; font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="%E5%8A%A0%E5%85%A5%20slice%20pipe/screen4_2018-10-27_21-21-48.png" alt="screen4_2018-10-27_21-21-48.png" />
+</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
