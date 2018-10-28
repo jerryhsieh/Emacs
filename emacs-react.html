@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Emacs for React</title>
+<meta name="author" content="(洋蔥工作室)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<style>
+.reveal pre { font-size: 16px;}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2>Emacs for React</h2><h3>洋蔥工作室</h3>
+</section>
+<section>
+<section id="slide-orga2a0e81">
+<h2 id="orga2a0e81">Emacs for React</h2>
+<ul>
+<li>使用 rjsx-mode：是 js2-mode 衍伸出來的主模式，因此也繼承了 js2-mode 的功能</li>
+<li>語法檢查：使用本地 eslint + react-app</li>
+<li>使用 emmet 加上 className</li>
+<li>排版美化：使用 prettier-js</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orge06b4f3">
+<h2 id="orge06b4f3">Youtube 影片</h2>
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/ZTaxP9bGy3o" frameborder="0" allowfullscreen>Emacs React</iframe>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org9cf14f9">
+<h2 id="org9cf14f9">安裝 rjsx-mode</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">rjsx-mode</span>
+<span style="color: #b0c4de;">:ensure</span> t
+<span style="color: #b0c4de;">:mode</span> (<span style="color: #ffc1c1;">"\\.js\\'"</span>)
+<span style="color: #b0c4de;">:config</span>
+(<span style="color: #00ffff;">setq</span> js2-basic-offset 2)
+(add-hook 'rjsx-mode-hook (<span style="color: #00ffff;">lambda</span>()
+                          (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+                          (my/use-eslint-from-node-modules)
+                          (flycheck-select-checker 'javascript-eslint)
+                          ))
+)
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org05d3ddc">
+<h2 id="org05d3ddc">其他安裝</h2>
+<ul>
+<li><p>
+將 rjsx-mode 加入 emmet-mode
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"><span style="color: #b0c4de;">:hook</span> (web-mode css-mode scss-mode sgml-mode rjsx-mode)    
+</pre>
+</div></li>
+<li><p>
+emmet 在 web-mode 要用 class 而 rjsx-mode 用 className
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">mode-local</span>
+<span style="color: #b0c4de;">:ensure</span> t
+<span style="color: #b0c4de;">:config</span>
+(<span style="color: #00ffff;">setq-mode-local</span> rjsx-mode emmet-expand-jsx-className? t)
+(<span style="color: #00ffff;">setq-mode-local</span> web-mode emmet-expand-jsx-className? nil)
+)
+</pre>
+</div></li>
+<li><p>
+使用 react-snippets 套件
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(<span style="color: #00ffff;">use-package</span> <span style="color: #8470ff; font-weight: bold;">react-snippets</span>
+<span style="color: #b0c4de;">:ensure</span> t)
+</pre>
+</div></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org628236c">
+<h2 id="org628236c">使用 tide</h2>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">(add-hook 'rjsx-mode-hook #'setup-tide-mode)
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org9b8606e">
+<h2 id="org9b8606e">開始一個專案</h2>
+<div class="org-src-container">
+
+<pre  class="src src-shell">$<span style="color: #7fffd4;">create</span>-react-app hello
+</pre>
+</div>
+<ul>
+<li>加入 bootstrap CDN 到 public/index.html</li>
+<li>清掉 index.css</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org2842c95">
+<h2 id="org2842c95">在 vagrant client 中，需加入 .env</h2>
+<pre class="example">
+CHOKIDAR_USEPOLLING=true
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-orgdea70d6">
+<h2 id="orgdea70d6">建立一個 Components</h2>
+<ul>
+<li>建立 Components 目錄</li>
+<li><p>
+建立 Posts.js
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> React from <span style="color: #ffc1c1;">"react"</span>;
+
+<span style="color: #00ffff;">class</span> Posts <span style="color: #00ffff;">extends</span> React.Component {
+render() {
+  <span style="color: #00ffff;">return</span> (
+    &lt;div className=<span style="color: #ffc1c1;">"Posts"</span>&gt;
+      &lt;h3&gt;List of Posts&lt;/h3&gt;
+      &lt;/div&gt;
+      );
+    }
+  }
+
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">default</span> Posts;
+</pre>
+</div></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orge4b1c73">
+<h2 id="orge4b1c73">使用 mock-posts 從 App.js 傳到 Posts.js</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> React, { Component } from <span style="color: #ffc1c1;">"react"</span>;
+<span style="color: #00ffff;">import</span> Posts from <span style="color: #ffc1c1;">"./Components/Posts"</span>;
+<span style="color: #00ffff;">import</span> <span style="color: #ffc1c1;">"./App.css"</span>;
+
+<span style="color: #00ffff;">class</span> App <span style="color: #00ffff;">extends</span> Component {
+  constructor() {
+    <span style="color: #00ffff;">super</span>();
+    <span style="color: #8470ff; font-weight: bold;">this</span>.state = {
+      posts: [
+        { id: 1, title: <span style="color: #ffc1c1;">"first post"</span>, body: <span style="color: #ffc1c1;">"this is first post content"</span> },
+        { id: 2, title: <span style="color: #ffc1c1;">"second post"</span>, body: <span style="color: #ffc1c1;">"this is second post content"</span> },
+        { id: 1, title: <span style="color: #ffc1c1;">"third post"</span>, body: <span style="color: #ffc1c1;">"this is third post content"</span> },
+        { id: 1, title: <span style="color: #ffc1c1;">"forth post"</span>, body: <span style="color: #ffc1c1;">"this is forth post content"</span> },
+      ],
+    };
+  }
+  render() {
+    <span style="color: #00ffff;">return</span> (
+      &lt;div className=<span style="color: #ffc1c1;">"App"</span>&gt;
+        &lt;Posts posts={<span style="color: #8470ff; font-weight: bold;">this</span>.state.posts} /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">default</span> App;
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org246804e">
+<h2 id="org246804e">Posts Component 應該會收到這個 props</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> React from <span style="color: #ffc1c1;">"react"</span>;
+
+<span style="color: #00ffff;">class</span> Posts <span style="color: #00ffff;">extends</span> React.Component {
+  render() {
+    console.log(<span style="color: #8470ff; font-weight: bold;">this</span>.props);
+    <span style="color: #00ffff;">return</span> (
+      &lt;div className=<span style="color: #ffc1c1;">"Posts"</span>&gt;
+        &lt;h3&gt;List of Posts&lt;/h3&gt;
+        &lt;/div&gt;
+      );
+    }
+  }
+
+  <span style="color: #00ffff;">export</span> <span style="color: #00ffff;">default</span> Posts;
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org0b602d1">
+<h2 id="org0b602d1">建立  Post Component</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> React from <span style="color: #ffc1c1;">"react"</span>;
+
+<span style="color: #00ffff;">class</span> Post <span style="color: #00ffff;">extends</span> React.Component {
+  render() {
+    <span style="color: #00ffff;">return</span> (
+      &lt;div className=<span style="color: #ffc1c1;">"col-md-6"</span>&gt;
+        &lt;div className=<span style="color: #ffc1c1;">"card mb-4 shadow-sm"</span>&gt;
+          &lt;div className=<span style="color: #ffc1c1;">"card-body"</span>&gt;
+            &lt;div className=<span style="color: #ffc1c1;">"card-title"</span>&gt;{<span style="color: #8470ff; font-weight: bold;">this</span>.props.post.title}&lt;/div&gt;
+            &lt;div className=<span style="color: #ffc1c1;">"card-text mb-3"</span>&gt;{<span style="color: #8470ff; font-weight: bold;">this</span>.props.post.body}&lt;/div&gt;
+            &lt;a href=<span style="color: #ffc1c1;">"#"</span> className=<span style="color: #ffc1c1;">"btn btn-outline-primary"</span>&gt;
+              More...
+            &lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">default</span> Post;
+
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org8aaf17d">
+<h2 id="org8aaf17d">App.js 將 posts 移到 componentWillMount</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> React, { Component } from <span style="color: #ffc1c1;">"react"</span>;
+<span style="color: #00ffff;">import</span> Posts from <span style="color: #ffc1c1;">"./Components/Posts"</span>;
+<span style="color: #00ffff;">import</span> <span style="color: #ffc1c1;">"./App.css"</span>;
+
+<span style="color: #00ffff;">class</span> App <span style="color: #00ffff;">extends</span> Component {
+  constructor() {
+    <span style="color: #00ffff;">super</span>();
+    <span style="color: #8470ff; font-weight: bold;">this</span>.state = {
+      posts: [],
+    };
+  }
+
+  componentWillMount() {
+    <span style="color: #8470ff; font-weight: bold;">this</span>.setState({
+      posts: [
+        { id: 1, title: <span style="color: #ffc1c1;">"first post"</span>, body: <span style="color: #ffc1c1;">"this is first post content"</span> },
+        { id: 2, title: <span style="color: #ffc1c1;">"second post"</span>, body: <span style="color: #ffc1c1;">"this is second post content"</span> },
+        { id: 1, title: <span style="color: #ffc1c1;">"third post"</span>, body: <span style="color: #ffc1c1;">"this is third post content"</span> },
+        { id: 1, title: <span style="color: #ffc1c1;">"forth post"</span>, body: <span style="color: #ffc1c1;">"this is forth post content"</span> },
+      ],
+    });
+  }
+  render() {
+    <span style="color: #00ffff;">return</span> (
+      &lt;div className=<span style="color: #ffc1c1;">"App"</span>&gt;
+        &lt;Posts posts={<span style="color: #8470ff; font-weight: bold;">this</span>.state.posts} /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">default</span> App;
+
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgce40e4c">
+<h2 id="orgce40e4c">使用 fetch 來 get API</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> React, { Component } from <span style="color: #ffc1c1;">"react"</span>;
+<span style="color: #00ffff;">import</span> Posts from <span style="color: #ffc1c1;">"./Components/Posts"</span>;
+
+<span style="color: #00ffff;">import</span> <span style="color: #ffc1c1;">"./App.css"</span>;
+
+<span style="color: #00ffff;">class</span> App <span style="color: #00ffff;">extends</span> Component {
+  constructor() {
+    <span style="color: #00ffff;">super</span>();
+    <span style="color: #8470ff; font-weight: bold;">this</span>.state = {
+      posts: [],
+    };
+  }
+
+  componentDidMount() {
+  <span style="color: #fa8072;">// </span><span style="color: #ff7f24; font-style: italic;">this.setState({</span>
+  <span style="color: #fa8072;">//   </span><span style="color: #ff7f24; font-style: italic;">posts: [</span>
+  <span style="color: #fa8072;">//     </span><span style="color: #ff7f24; font-style: italic;">{ id: 1, title: "first post", body: "this is first post content" },</span>
+  <span style="color: #fa8072;">//     </span><span style="color: #ff7f24; font-style: italic;">{ id: 2, title: "second post", body: "this is second post content" },</span>
+  <span style="color: #fa8072;">//     </span><span style="color: #ff7f24; font-style: italic;">{ id: 1, title: "third post", body: "this is third post content" },</span>
+  <span style="color: #fa8072;">//     </span><span style="color: #ff7f24; font-style: italic;">{ id: 1, title: "forth post", body: "this is forth post content" },</span>
+  <span style="color: #fa8072;">//   </span><span style="color: #ff7f24; font-style: italic;">],</span>
+  <span style="color: #fa8072;">// </span><span style="color: #ff7f24; font-style: italic;">});</span>
+
+  fetch(<span style="color: #ffc1c1;">"https://jsonplaceholder.typicode.com/posts?userId=1"</span>)
+    .then(res =&gt; res.json())
+    <span style="color: #fa8072;">//</span><span style="color: #ff7f24; font-style: italic;">.then(data =&gt; console.log(data));</span>
+    .then(data =&gt; <span style="color: #8470ff; font-weight: bold;">this</span>.setState({ posts: data }));
+  }
+  render() {
+    <span style="color: #00ffff;">return</span> (
+      &lt;div className=<span style="color: #ffc1c1;">"App"</span>&gt;
+        &lt;Posts posts={<span style="color: #8470ff; font-weight: bold;">this</span>.state.posts} /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">default</span> App;
+
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org17e61dc">
+<h2 id="org17e61dc">修改 Post.js</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> React from <span style="color: #ffc1c1;">"react"</span>;
+
+<span style="color: #00ffff;">class</span> Post <span style="color: #00ffff;">extends</span> React.Component {
+  render() {
+    <span style="color: #00ffff;">return</span> (
+      &lt;div className=<span style="color: #ffc1c1;">"Post col-md-6"</span>&gt;
+        &lt;div className=<span style="color: #ffc1c1;">"card mb-4 shadow-sm"</span>&gt;
+          &lt;div className=<span style="color: #ffc1c1;">"card-body"</span>&gt;
+            &lt;div className=<span style="color: #ffc1c1;">"card-title"</span>&gt;{<span style="color: #8470ff; font-weight: bold;">this</span>.props.post.title}&lt;/div&gt;
+            &lt;div className=<span style="color: #ffc1c1;">"card-text mb-3"</span>&gt;
+              {<span style="color: #8470ff; font-weight: bold;">this</span>.props.post.body.substring(0, 50)}
+              ...
+            &lt;/div&gt;
+            &lt;a href=<span style="color: #ffc1c1;">"#"</span> className=<span style="color: #ffc1c1;">"btn btn-outline-primary"</span>&gt;
+              More...
+            &lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">default</span> Post;
+
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgaf106a7">
+<h2 id="orgaf106a7">最後 Posts.js</h2>
+<div class="org-src-container">
+
+<pre  class="src src-js"><span style="color: #00ffff;">import</span> React from <span style="color: #ffc1c1;">"react"</span>;
+
+<span style="color: #00ffff;">import</span> Post from <span style="color: #ffc1c1;">"./Post"</span>;
+
+<span style="color: #00ffff;">class</span> Posts <span style="color: #00ffff;">extends</span> React.Component {
+  render() {
+    <span style="color: #00ffff;">let</span> <span style="color: #7fffd4;">posts</span>;
+    <span style="color: #00ffff;">if</span> (<span style="color: #8470ff; font-weight: bold;">this</span>.props.posts) {
+      posts = <span style="color: #8470ff; font-weight: bold;">this</span>.props.posts.map(post =&gt; {
+        <span style="color: #fa8072;">//</span><span style="color: #ff7f24; font-style: italic;">console.log(post);</span>
+        <span style="color: #00ffff;">return</span> &lt;Post key={post.title} post={post} /&gt;;
+      });
+    }
+
+    <span style="color: #00ffff;">return</span> (
+      &lt;div className=<span style="color: #ffc1c1;">"Posts"</span>&gt;
+        &lt;div className=<span style="color: #ffc1c1;">"container"</span>&gt;
+          &lt;h3 className=<span style="color: #ffc1c1;">"my-4 text-center"</span>&gt;List of Posts&lt;/h3&gt;
+          &lt;div className=<span style="color: #ffc1c1;">"row"</span>&gt;{posts}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+<span style="color: #00ffff;">export</span> <span style="color: #00ffff;">default</span> Posts;
+</pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/head.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@3.6.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
